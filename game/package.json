@@ -1,0 +1,23 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "Assignment for Web Technologies unit - COMS32500",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serve ./public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreiapostol/WebTech.git"
+  },
+  "author": "Andrei Apostol, Marc Tannous",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreiapostol/WebTech/issues"
+  },
+  "homepage": "https://github.com/andreiapostol/WebTech#readme",
+  "dependencies": {
+    "serve": "^10.1.2"
+  }
+}
