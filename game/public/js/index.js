@@ -1,26 +1,39 @@
-function loadImage(url){
-    return new Promise(resolve => {
-        const image = new Image();
-        image.addEventListener('load', ()=>{
-            resolve(image);
-        });
-        image.src = url;
-    })
-}
+import {mapLoader} from './loaders.js';
+import {characterLoader, backgroundLoader} from './sprites.js';
+import Compositor from './compositor.js';
+import {createBackgroundLayer} from './layers.js';
+
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-// context.fillRect(25, 0, 50, 90);
+function createSpriteLayer(sprite, position){
+    return function drawSpriteLayer(context){
+        sprite.draw('idle', context, position.x, position.y);
+    }
+}
 
-loadImage('/img/inca_back2.png').then(image => {
-    context.drawImage(image,
-        0, 0,
-        32, 32, 
-        0, 0, 
-        32, 32);
-    context.drawImage(image,
-            96, 32,
-            32, 32, 
-            0, 32, 
-            32, 32);
+Promise.all([
+    characterLoader(),
+    backgroundLoader(),
+    mapLoader('intro')
+]).then(([ hero, backgroundSprites, level ]) => {
+    const comp = new Compositor();
+    const backgroundLayer = createBackgroundLayer(level, backgroundSprites);
+    comp.layers.push(backgroundLayer);
+
+    let pos = {
+        x: 64,
+        y: 64
+    };
+    const spriteLayer = createSpriteLayer(hero, pos);
+    comp.layers.push(spriteLayer);
+
+    function update(){
+        comp.draw(context);
+        hero.draw('idle', context, pos.x, pos.y);
+        pos.x += 2;
+        pos.y += 2;
+        requestAnimationFrame(update);
+    }
+    update();
 });
