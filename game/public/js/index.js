@@ -6,6 +6,7 @@ import {createBackgroundLayer, createSpriteLayer } from './layers.js';
 import {createCario} from './entities.js'
 import {Vec2} from './math.js'
 import Entity from './entity.js'
+import Keyboard from './keyboardstate.js';
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
@@ -20,10 +21,21 @@ Promise.all([
     const backgroundLayer = createBackgroundLayer(level, backgroundSprites);
     comp.layers.push(backgroundLayer);
 
-    const gravity = 30;
-    cario.position.set(64, 180);
-    cario.velocity.set(200, -600);
+    const gravity = 2000;
+    cario.position.set(50, 60);
+    //cario.vel.set(200, -500);
 
+    const spaceBar = 32;
+    const input = new Keyboard();
+    input.addMapping(spaceBar, keyState => {
+        if(keyState){
+            cario.jump.start();
+        }
+        else{
+            cario.jump.cancel();
+        }
+    });
+    input.listenTo(window);
     const spriteLayer = createSpriteLayer(cario);
     comp.layers.push(spriteLayer);
     const timer = new Timer(1/60);
@@ -32,26 +44,10 @@ Promise.all([
     // let lastTime = 0;
 
     timer.update = function update(deltaTime){
-        comp.draw(context);
         cario.update(deltaTime);
-        cario.velocity.y += gravity;
+        comp.draw(context);
+        cario.vel.y += gravity * deltaTime;
     }
-    // function update(time){
-    //     accummulatedTime += (time - lastTime) / 1000;
-    //     // console.log(deltaTime);
-    //     while(accummulatedTime > deltaTime){
-    //         comp.draw(context);
-    //         //hero.draw('idle', context, pos.x, pos.y);
-    //         cario.update(deltaTime);
-    //         cario.velocity.y += gravity;
-    //         accummulatedTime -= deltaTime;
-    //     };
-    //     // requestAnimationFrame(update);
-    //     //setTimeout(update, 1000/14);
-    //     setTimeout(update, 1000/1, performance.now());
-    //     lastTime = time;
-    //     console.log(cario.position, cario.velocity);
-    // }
     timer.start();
     // update(0);
 });
