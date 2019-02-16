@@ -1,42 +1,59 @@
-function drawConstant(background, context, sprites){
-    background.intervals.forEach(([x1, x2, y1, y2]) => {
-        for(let x = x1; x < x2; x++){
-            for(let y = y1; y < y2; y++){
-                sprites.drawTile(background.tile, context, x, y);
-            }
-        }
-    })
+export function createBackgroundLayer(level, sprites) {
+    const buffer = document.createElement('canvas');
+    buffer.width = 720;
+    buffer.height = 480;
+
+    const context = buffer.getContext('2d');
+
+    level.tiles.forEach((tile, x, y) => {
+        sprites.drawTile(tile.name, context, x, y);
+    });
+
+    return function drawBackgroundLayer(context) {
+        context.drawImage(buffer, 0, 0);
+    };
 }
 
-function drawAlternative(background, context, sprites){
-    background.intervals.forEach(([x1, x2, y1, y2]) => {
-        let step = 1;
-        for(let x = x1; x < x2; x++){
-            for(let y = y1; y < y2; y++){
-                step === 1 ? sprites.drawTile(background.tileA, context, x, y) : sprites.drawTile(background.tileB, context, x, y);
-                step *= -1;
-            }
-        }
-    })
+export function createSpriteLayer(entities) {
+    return function drawSpriteLayer(context) {
+        entities.forEach(entity => {
+            entity.draw(context);
+        });
+    };
 }
 
-export function createBackgroundLayer(level, sprites){
-    const backgroundBuffer = document.createElement('canvas');
-    backgroundBuffer.width = 720;
-    backgroundBuffer.height = 480;
-    // bg
-    drawConstant(level.backgrounds[0], backgroundBuffer.getContext('2d'), sprites);
-    // floor
-    drawAlternative(level.backgrounds[1], backgroundBuffer.getContext('2d'), sprites);
-    // beneath the floor
-    drawConstant(level.backgrounds[2], backgroundBuffer.getContext('2d'), sprites);
-    return function drawBackgroundLayer(context){
-        context.drawImage(backgroundBuffer, 0, 0);
+export function createCollisionLayer(level) {
+    const resolvedTiles = [];
+
+    const tileResolver = level.tileCollider.tiles;
+    const tileSize = tileResolver.tileSize;
+
+    const getByIndexOriginal = tileResolver.getByIndex;
+    tileResolver.getByIndex = function getByIndexFake(x, y) {
+        resolvedTiles.push({x, y});
+        return getByIndexOriginal.call(tileResolver, x, y);
     }
-}
 
-export function createSpriteLayer(entity){
-    return function drawSpriteLayer(context){
-        entity.draw(context);
-    }
+    return function drawCollision(context) {
+        context.strokeStyle = 'blue';
+        resolvedTiles.forEach(({x, y}) => {
+            context.beginPath();
+            context.rect(
+                x * tileSize,
+                y * tileSize,
+                tileSize, tileSize);
+            context.stroke();
+        });
+
+        context.strokeStyle = 'red';
+        level.entities.forEach(entity => {
+            context.beginPath();
+            context.rect(
+                entity.pos.x, entity.pos.y,
+                entity.size.x, entity.size.y);
+            context.stroke();
+        });
+
+        resolvedTiles.length = 0;
+    };
 }

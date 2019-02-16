@@ -1,26 +1,27 @@
 export default class Timer {
-    constructor (deltaTime = 1/60){
-        let accummulatedTime = 0;
+    constructor(deltaTime = 1/60) {
+        let accumulatedTime = 0;
         let lastTime = 0;
 
-        this.updateProxy = (time)=>{
-            accummulatedTime += (time - lastTime) / 1000;
-            // console.log(deltaTime);
-            while(accummulatedTime > deltaTime){
+        this.updateProxy = (time) => {
+            accumulatedTime += (time - lastTime) / 1000;
+
+            while (accumulatedTime > deltaTime) {
                 this.update(deltaTime);
-                accummulatedTime -= deltaTime;
-            };
+                accumulatedTime -= deltaTime;
+            }
+
             lastTime = time;
-            
+
             this.enqueue();
         }
     }
 
-    enqueue(){
+    enqueue() {
         requestAnimationFrame(this.updateProxy);
     }
 
-    start(){
+    start() {
         this.enqueue();
     }
 }

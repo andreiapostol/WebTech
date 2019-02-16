@@ -1,12 +1,12 @@
-import {Trait} from '../entity.js'
+import {Trait} from '../Entity.js';
 
-export default class Velocity extends Trait{
-    constructor(){
+export default class Velocity extends Trait {
+    constructor() {
         super('velocity');
     }
 
-    update(entity, deltaTime){
-        entity.position.x += entity.vel.x * deltaTime;
-        entity.position.y += entity.vel.y * deltaTime;
+    update(entity, deltaTime) {
+        entity.pos.x += entity.vel.x * deltaTime;
+        entity.pos.y += entity.vel.y * deltaTime;
     }
 }

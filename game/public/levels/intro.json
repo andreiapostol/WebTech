@@ -1,0 +1,72 @@
+{
+    "backgrounds": [
+        {
+            "tile": "background",
+            "intervals": [
+                [
+                    0, 40,
+                    0, 25
+                ]
+            ]
+        },
+        {
+            "tileA": "groundA",
+            "tileB": "groundB",
+            "intervals": [
+                [
+                    0, 40,
+                    23, 24
+                ]
+            ]
+        },
+        {
+            "tile": "underground",
+            "intervals": [
+                [
+                    0, 40,
+                    24, 25
+                ]
+            ]
+        },
+        {
+            "tileA": "groundA",
+            "tileB": "groundB",
+            "intervals": [
+                [
+                    20, 22,
+                    17, 18
+                ]
+            ]
+        },
+        {
+            "tileA": "groundA",
+            "tileB": "groundB",
+            "intervals": [
+                [
+                    13, 17,
+                    18, 19
+                ]
+            ]
+        },
+        {
+            "tileA": "groundA",
+            "tileB": "groundB",
+            "intervals": [
+                [
+                    27, 29,
+                    16, 17
+                ]
+            ]
+        },
+        {
+            "tileA": "groundA",
+            "tileB": "groundB",
+            "intervals": [
+                [
+                    33, 53,
+                    13, 14
+                ]
+            ]
+        }
+    ]
+}
