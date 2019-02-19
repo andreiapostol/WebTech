@@ -18,6 +18,16 @@ export function loadBackgroundSprites() {
         sprites.defineTile('groundA', 2, 4);
         sprites.defineTile('groundB', 3, 4);
         sprites.defineTile('underground', 2, 11);
+
+        sprites.defineTile('square11A', 2, 2);
+        sprites.defineTile('square11B', 3, 2);
+        sprites.defineTile('square11C', 2, 3);
+        sprites.defineTile('square11D', 3, 3);
+
+        sprites.defineTile('square33A', 6, 2);
+        sprites.defineTile('square33B', 7, 2);
+        sprites.defineTile('square33C', 6, 3);
+        sprites.defineTile('square33D', 7, 3);
         return sprites;
     });
 }
