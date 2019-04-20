@@ -4,6 +4,6 @@ export default class Trait {
     }
 
     update() {
-        console.warn('Unhandled update call');
+        console.warn('Out of scope');
     }
 }
