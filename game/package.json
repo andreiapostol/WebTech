@@ -1,5 +1,5 @@
 {
-  "name": "super-mario",
+  "name": "super-cario",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "serve": "^6.1.0"
+    "serve": "^11.0.0"
   }
 }
