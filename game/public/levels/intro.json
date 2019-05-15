@@ -1,4 +1,5 @@
 {
+    "spriteSheet": "aztec",
     "backgrounds": [
         {
             "tile": "background",
@@ -81,8 +82,8 @@
         },
 
         {
-            "tileA": "square33A",
-            "tileB": "square33B",
+            "tileA": "square31A",
+            "tileB": "square31B",
             "intervals": [
                 [
                     20, 24,
@@ -91,8 +92,8 @@
             ]
         },
         {
-            "tileA": "square33C",
-            "tileB": "square33D",
+            "tileA": "square31C",
+            "tileB": "square31D",
             "intervals": [
                 [
                     20, 24,
@@ -101,8 +102,8 @@
             ]
         },
         {
-            "tileA": "square33A",
-            "tileB": "square33B",
+            "tileA": "square31A",
+            "tileB": "square31B",
             "intervals": [
                 [
                     20, 24,
@@ -111,12 +112,21 @@
             ]
         },
         {
-            "tileA": "square33C",
-            "tileB": "square33D",
+            "tileA": "square31C",
+            "tileB": "square31D",
             "intervals": [
                 [
                     20, 24,
                     20, 21
+                ]
+            ]
+        },
+        {
+            "tile": "powerup-1",
+            "intervals": [
+                [
+                    20, 21,
+                    14, 15
                 ]
             ]
         }

@@ -1,0 +1,75 @@
+{
+    "imageURL": "/img/inca_back.png",
+    "tileW": 16,
+    "tileH": 16,
+
+    "tiles": [
+        {
+            "name": "powerup-1",
+            "index": [8, 7]
+        },
+        {
+            "name": "powerup-2",
+            "index": [9, 7]
+        },
+        {
+            "name": "background",
+            "index": [7, 13]
+        },
+        {
+            "name": "groundA",
+            "index": [2, 4]
+        },
+        {
+            "name": "groundB",
+            "index": [3, 4]
+        },
+        {
+            "name": "underground",
+            "index": [2, 11]
+        },
+        {
+            "name": "square11A",
+            "index": [2, 2]
+        },
+        {
+            "name": "square11B",
+            "index": [3, 2]
+        }
+        ,
+        {
+            "name": "square11C",
+            "index": [2, 3]
+        }
+        ,
+        {
+            "name": "square11D",
+            "index": [3, 3]
+        },
+        {
+            "name": "square31A",
+            "index": [6, 2]
+        },
+        {
+            "name": "square31B",
+            "index": [7, 2]
+        }
+        ,
+        {
+            "name": "square31C",
+            "index": [6, 3]
+        }
+        ,
+        {
+            "name": "square31D",
+            "index": [7, 3]
+        }
+    ],
+    "animations": [
+        {
+            "name": "powerup-1",
+            "rate": 0.25,
+            "frames":["powerup-2", "powerup-1",  "powerup-1"]
+        }
+    ]
+}
