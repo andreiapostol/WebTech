@@ -14,9 +14,12 @@ export function createMario() {
         mario.addTrait(new Jump());
 
         const runAnimation = generateAnimationFromFrames(['run-1', 'run-2', 'run-3', 'run-4', 'run-5', 'run-6'], 15);
-
+        const jumpAnimation = generateAnimationFromFrames(['jump-1', 'jump-2', 'jump-3', 'jump-4', 'jump-5', 'jump-6', 'jump-8'], 800);
         function frameDecider(mario){
-            if(mario.go.dir !== 0){
+            if(!mario.jump.readyToJump){
+                return jumpAnimation(mario.jump.height);
+            }
+            if(mario.go.distance > 0){
                 return runAnimation(mario.go.distance);
             }
             return 'idle';

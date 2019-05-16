@@ -3,16 +3,31 @@ import {Trait} from '../Entity.js';
 export default class Go extends Trait {
     constructor() {
         super('go');
-
         this.dir = 0;
-        this.speed = 7250;
+        this.acceleration = 600;
+        this.deceleration = 700;
+        this.friction = 1/7500;
         this.distance = 0;
         this.memory = 1;
     }
 
     update(entity, deltaTime) {
-        entity.vel.x = this.speed * this.dir * deltaTime;
-        this.distance = this.dir ? this.distance + Math.abs(entity.vel.x) * deltaTime : 0;
-        this.memory = this.dir ? this.dir : this.memory;
+        if(this.dir){
+            entity.vel.x += this.acceleration * deltaTime * this.dir;
+            this.memory = this.dir;
+        }
+        else if(entity.vel.x){
+            entity.vel.x += entity.vel.x > 0 ? -Math.min(Math.abs(entity.vel.x), this.deceleration * deltaTime) : Math.min(Math.abs(entity.vel.x), this.deceleration * deltaTime);
+        }
+        else{
+            this.distance = 0;
+        }
+        const drag = this.friction * entity.vel.x * Math.abs(entity.vel.x);
+        entity.vel.x -= drag;
+        this.distance += Math.abs(entity.vel.x) * deltaTime;
+
     }
+    
+    
 }
+

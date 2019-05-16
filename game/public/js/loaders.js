@@ -88,7 +88,7 @@ export function loadLevel(name){
     return loadJSON(`/levels/${name}.json`)
     .then(levelSpec => Promise.all([
         levelSpec,
-        loadSpriteSheet(levelSpec.spriteSheet),
+        loadSpriteSheet(levelSpec.spriteSheet)
     ])).then(([levelSpecification, backgroundSprites]) => {
         const level = new Level();
         createTiles(level, levelSpecification.backgrounds);
