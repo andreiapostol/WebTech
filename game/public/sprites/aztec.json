@@ -1,5 +1,5 @@
 {
-    "imageURL": "/img/inca_back.png",
+    "imageURL": "/img/tiles.png",
     "tileW": 16,
     "tileH": 16,
 
@@ -63,6 +63,55 @@
         {
             "name": "square31D",
             "index": [7, 3]
+        },
+        {
+            "name": "lava00",
+            "index": [0, 14]
+        },
+        {
+            "name": "lava01",
+            "index": [1, 14]
+        },
+        {
+            "name": "lava02",
+            "index": [2, 14]
+        },
+        {
+            "name": "lava03",
+            "index": [3, 14]
+        },
+        {
+            "name": "lava04",
+            "index": [4, 14]
+        },
+        {
+            "name": "lava05",
+            "index": [5, 14]
+        },
+        {
+            "name": "lava10",
+            "index": [0, 15]
+        },
+        {
+
+            "name": "lava11",
+            "index": [1, 15]
+        },
+        {
+            "name": "lava12",
+            "index": [2, 15]
+        },
+        {
+            "name": "lava13",
+            "index": [3, 15]
+        },
+        {
+            "name": "lava14",
+            "index": [4, 15]
+        },
+        {
+            "name": "lava15",
+            "index": [5, 15]
         }
     ],
     "animations": [
@@ -70,6 +119,26 @@
             "name": "powerup-1",
             "rate": 0.25,
             "frames":["powerup-2", "powerup-1",  "powerup-1"]
+        },
+        {
+            "name": "lava00",
+            "rate": 0.25,
+            "frames":["lava00", "lava02", "lava04"]
+        },
+        {
+            "name": "lava01",
+            "rate": 0.25,
+            "frames":["lava01", "lava03", "lava05"]
+        },
+        {
+            "name": "lava10",
+            "rate": 0.25,
+            "frames":["lava10", "lava12", "lava14"]
+        },
+        {
+            "name": "lava11",
+            "rate": 0.25,
+            "frames":["lava11", "lava13", "lava15"]
         }
     ]
 }
