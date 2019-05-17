@@ -55,13 +55,13 @@ app.get('/rankings/score_range/:beginAt/:endAt', async (req, res, next) => {
   try {
     newdb.serialize(function() {
       let statement = newdb.prepare(`WITH temp AS (
-        SELECT id, name, score, row_number() OVER (ORDER BY id) AS rownum
+        SELECT id, name, score, row_number() OVER (ORDER BY SCORE DESC) AS rownum
         FROM RANKINGS
     )
     SELECT ID, NAME, SCORE FROM temp WHERE rownum >= ` + req.params.beginAt + ` AND rownum <= ` + req.params.endAt + `;`);
 
     // TODO: PREPARED STATEMENTS
-    
+
       statement.all(function(err, rows){
         console.log(JSON.stringify(statement));
         res.json(rows);
