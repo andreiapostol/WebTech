@@ -1,130 +1,584 @@
 {
     "spriteSheet": "aztec",
-    "backgrounds": [
+    "layers":[
         {
-            "tile": "background",
-            "intervals": [
-                [
-                    0, 2000,
-                    0, 25
-                ]
-            ]
-        },
-        {
-            "tileA": "groundA",
-            "tileB": "groundB",
-            "intervals": [
-                [
-                    0, 16,
-                    23, 24
-                ],
-                [
-                    22, 2000,
-                    23, 24
-                ],
-                [
-                    45, 51,
-                    13, 14
-                ]
-            ]
-        },
-        {
-            "tile": "underground",
-            "intervals": [
-                [
-                    22, 2000,
-                    24, 25
-                ],
-                [
-                    0, 16,
-                    24, 25
-                ]
-            ]
-        },
+            "backgrounds": [
+                {
+                    "tile": "background",
+                    "intervals": [
+                        [
+                            0, 2000,
+                            0, 25
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "groundA",
+                    "tileB": "groundB",
+                    "intervals": [
+                        [
+                            0, 16,
+                            23, 24
+                        ],
+                        [
+                            22, 2000,
+                            23, 24
+                        ],
+                        [
+                            45, 51,
+                            13, 14
+                        ]
+                    ]
+                },
+                {
+                    "tile": "underground",
+                    "intervals": [
+                        [
+                            22, 2000,
+                            24, 25
+                        ],
+                        [
+                            0, 16,
+                            24, 25
+                        ]
+                    ]
+                },
 
-        {
-            "object": "box1W2H2",
-            "intervals":[
-                [
-                    14, 15,
-                    21, 22
-                ],
-                [
-                    60, 61,
-                    21, 22
-                ]
+                {
+                    "object": "box1W2H2",
+                    "intervals":[
+                        [
+                            14, 15,
+                            21, 22
+                        ],
+                        [
+                            60, 61,
+                            21, 22
+                        ]
+                    ]
+                },
+
+                {
+                    "object": "box2W2H2",
+                    "intervals":[
+                        [ 
+                        22,23,
+                        21, 22
+                        ],
+                        [
+                        24, 25,
+                        21, 22
+                        ],
+                        [ 22, 23,
+                        19, 20
+                        ],
+                        [ 24, 25,
+                        19, 20
+                        ],
+
+                        [ 
+                        34, 35,
+                        19, 20
+                        ],
+                        [ 
+                        34, 35,
+                        21, 22
+                        ]
+                    ]
+                },
+
+                {
+                    "object": "lavaW6H2",
+                    "intervals":[
+                        [16, 17,
+                        22, 23]
+                    ]
+                },
+
+                {
+                    "object": "lavaW8H4",
+                    "intervals":[
+                        [26, 27,
+                        20, 21]
+                    ]
+                },
+
+                {
+                    "object": "lavaW24H4",
+                    "intervals":[
+                        [36, 37,
+                        20, 21]
+                    ]
+                },
+
+                {
+                    "object": "box3W2H2",
+                    "intervals":[
+                        [
+                            62, 63,
+                            21, 22
+                        ],
+                        [
+                            60, 61,
+                            19, 20
+                        ]
+                    ]
+                }
             ]
         },
-
         {
-            "object": "box2W2H2",
-            "intervals":[
-                [ 
-                  22,23,
-                  21, 22
-                ],
-                [
-                  24, 25,
-                  21, 22
-                ],
-                [ 22, 23,
-                  19, 20
-                ],
-                [ 24, 25,
-                  19, 20
-                ],
-
-                [ 
-                  34, 35,
-                  19, 20
-                ],
-                [ 
-                  34, 35,
-                  21, 22
-                ]
-            ]
-        },
-
-        {
-            "object": "lavaW6H2",
-            "intervals":[
-                [16, 17,
-                 22, 23]
-            ]
-        },
-
-        {
-            "object": "lavaW8H4",
-            "intervals":[
-                [26, 27,
-                 20, 21]
-            ]
-        },
-
-        {
-            "object": "lavaW24H4",
-            "intervals":[
-                [36, 37,
-                 20, 21]
-            ]
-        },
-
-        {
-            "object": "box3W2H2",
-            "intervals":[
-                [
-                    62, 63,
-                    21, 22
-                ],
-                [
-                    60, 61,
-                    19, 20
-                ]
+            "backgrounds": [
+                {
+                    "object": "tree",
+                    "intervals": [
+                        [
+                            -1, 0,
+                            17, 18
+                        ]
+                    ]
+                }
             ]
         }
     ],
 
     "objects": {
+        "tree":{
+            "backgrounds": [
+                {
+                    "tile": "tree00",
+                    "intervals":[
+                        [
+                            0, 1,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree01",
+                    "intervals":[
+                        [
+                            1, 2,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree02",
+                    "intervals":[
+                        [
+                            2, 3,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree03",
+                    "intervals":[
+                        [
+                            3, 4,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree04",
+                    "intervals":[
+                        [
+                            4, 5,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree05",
+                    "intervals":[
+                        [
+                            5, 6,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree06",
+                    "intervals":[
+                        [
+                            6, 7,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree07",
+                    "intervals":[
+                        [
+                            0, 1,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree10",
+                    "intervals":[
+                        [
+                            0, 1,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree11",
+                    "intervals":[
+                        [
+                            1, 2,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree12",
+                    "intervals":[
+                        [
+                            2, 3,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree13",
+                    "intervals":[
+                        [
+                            3, 4,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree14",
+                    "intervals":[
+                        [
+                            4, 5,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree15",
+                    "intervals":[
+                        [
+                            5, 6,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree16",
+                    "intervals":[
+                        [
+                            6, 7,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree17",
+                    "intervals":[
+                        [
+                            7, 8,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree20",
+                    "intervals":[
+                        [
+                            0, 1,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree21",
+                    "intervals":[
+                        [
+                            1, 2,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree22",
+                    "intervals":[
+                        [
+                            2, 3,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree23",
+                    "intervals":[
+                        [
+                            3, 4,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree24",
+                    "intervals":[
+                        [
+                            4, 5,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree25",
+                    "intervals":[
+                        [
+                            5, 6,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree26",
+                    "intervals":[
+                        [
+                            6, 7,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree27",
+                    "intervals":[
+                        [
+                            7, 8,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree30",
+                    "intervals":[
+                        [
+                            0, 1,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree31",
+                    "intervals":[
+                        [
+                            1, 2,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree32",
+                    "intervals":[
+                        [
+                            2, 3,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree33",
+                    "intervals":[
+                        [
+                            3, 4,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree34",
+                    "intervals":[
+                        [
+                            4, 5,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree35",
+                    "intervals":[
+                        [
+                            5, 6,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree36",
+                    "intervals":[
+                        [
+                            6, 7,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree37",
+                    "intervals":[
+                        [
+                            0, 1,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree40",
+                    "intervals":[
+                        [
+                            0, 1,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree41",
+                    "intervals":[
+                        [
+                            1, 2,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree42",
+                    "intervals":[
+                        [
+                            2, 3,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree43",
+                    "intervals":[
+                        [
+                            3, 4,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree44",
+                    "intervals":[
+                        [
+                            4, 5,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree45",
+                    "intervals":[
+                        [
+                            5, 6,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree46",
+                    "intervals":[
+                        [
+                            6, 7,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree47",
+                    "intervals":[
+                        [
+                            0, 1,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree50",
+                    "intervals":[
+                        [
+                            0, 1,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree51",
+                    "intervals":[
+                        [
+                            1, 2,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree52",
+                    "intervals":[
+                        [
+                            2, 3,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree53",
+                    "intervals":[
+                        [
+                            3, 4,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree54",
+                    "intervals":[
+                        [
+                            4, 5,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree55",
+                    "intervals":[
+                        [
+                            5, 6,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree56",
+                    "intervals":[
+                        [
+                            6, 7,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "tree57",
+                    "intervals":[
+                        [
+                            0, 1,
+                            5, 6
+                        ]
+                    ]
+                }
+            ]
+           
+        },
         "box1W2H2":{
             "backgrounds": [
                 {

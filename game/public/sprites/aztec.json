@@ -82,6 +82,194 @@
             "name": "square40D",
             "index": [9, 1]
         },
+
+        {
+            "name": "tree00",
+            "index": [7, 14]
+        },
+        {
+            "name": "tree01",
+            "index": [8, 14]
+        },
+        {
+            "name": "tree02",
+            "index": [9, 14]
+        },
+        {
+            "name": "tree03",
+            "index": [10, 14]
+        },{
+            "name": "tree04",
+            "index": [11, 14]
+        },
+        {
+            "name": "tree05",
+            "index": [12, 14]
+        },
+        {
+            "name": "tree06",
+            "index": [13, 14]
+        },
+        {
+            "name": "tree07",
+            "index": [14, 14]
+        },
+        {
+            "name": "tree10",
+            "index": [7, 15]
+        },
+        {
+            "name": "tree11",
+            "index": [8, 15]
+        },
+        {
+            "name": "tree12",
+            "index": [9, 15]
+        },
+        {
+            "name": "tree13",
+            "index": [10, 15]
+        },{
+            "name": "tree14",
+            "index": [11, 15]
+        },
+        {
+            "name": "tree15",
+            "index": [12, 15]
+        },
+        {
+            "name": "tree16",
+            "index": [13, 15]
+        },
+        {
+            "name": "tree17",
+            "index": [14, 15]
+        },
+        {
+            "name": "tree20",
+            "index": [7, 16]
+        },
+        {
+            "name": "tree21",
+            "index": [8, 16]
+        },
+        {
+            "name": "tree22",
+            "index": [9, 16]
+        },
+        {
+            "name": "tree23",
+            "index": [10, 16]
+        },{
+            "name": "tree24",
+            "index": [11, 16]
+        },
+        {
+            "name": "tree25",
+            "index": [12, 16]
+        },
+        {
+            "name": "tree26",
+            "index": [13, 16]
+        },
+        {
+            "name": "tree27",
+            "index": [14, 16]
+        },
+        {
+            "name": "tree30",
+            "index": [7, 17]
+        },
+        {
+            "name": "tree31",
+            "index": [8, 17]
+        },
+        {
+            "name": "tree32",
+            "index": [9, 17]
+        },
+        {
+            "name": "tree33",
+            "index": [10, 17]
+        },{
+            "name": "tree34",
+            "index": [11, 17]
+        },
+        {
+            "name": "tree35",
+            "index": [12, 17]
+        },
+        {
+            "name": "tree36",
+            "index": [13, 17]
+        },
+        {
+            "name": "tree37",
+            "index": [14, 17]
+        },
+        {
+            "name": "tree40",
+            "index": [7, 18]
+        },
+        {
+            "name": "tree41",
+            "index": [8, 18]
+        },
+        {
+            "name": "tree42",
+            "index": [9, 18]
+        },
+        {
+            "name": "tree43",
+            "index": [10, 18]
+        },{
+            "name": "tree44",
+            "index": [11, 18]
+        },
+        {
+            "name": "tree45",
+            "index": [12, 18]
+        },
+        {
+            "name": "tree46",
+            "index": [13, 18]
+        },
+        {
+            "name": "tree47",
+            "index": [14, 18]
+        },
+        {
+            "name": "tree50",
+            "index": [7, 19]
+        },
+        {
+            "name": "tree51",
+            "index": [8, 19]
+        },
+        {
+            "name": "tree52",
+            "index": [9, 19]
+        },
+        {
+            "name": "tree53",
+            "index": [10, 19]
+        },{
+            "name": "tree54",
+            "index": [11, 19]
+        },
+        {
+            "name": "tree55",
+            "index": [12, 19]
+        },
+        {
+            "name": "tree56",
+            "index": [13, 19]
+        },
+        {
+            "name": "tree57",
+            "index": [14, 19]
+        },
+
         {
             "name": "lava00",
             "index": [0, 14]

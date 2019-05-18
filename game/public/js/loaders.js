@@ -2,6 +2,7 @@ import Level from './level.js';
 import SpriteSheet from './SpriteSheet.js';
 import {createBackgroundLayer, createSpriteLayer } from './layers.js';
 import { generateAnimationFromFrames } from './animation.js';
+import {Matrix} from './math.js';
 
 export function loadImage(url){
     return new Promise(resolve => {
@@ -13,14 +14,35 @@ export function loadImage(url){
     })
 }
 
-function createTiles(level, backgrounds, objects, offsetX = 0, offsetY = 0){
+function createCollisionGrid(backgrounds, objects){
+    const layer = new Matrix();
+    for(const {name, x, y} of createTiles(backgrounds, objects)){
+        layer.set(x, y, {
+            name: name
+        });
+    }
+    return layer;
+}
+
+function createBackgroundGrid(backgrounds, objects){
+    const layer = new Matrix();
+    for(const {name, x, y} of createTiles(backgrounds, objects)){
+        layer.set(x, y, {
+            name: name
+        });
+    }
+    return layer;
+}
+
+function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
+    let tiles = [];
     backgrounds.forEach(background => {
         if(background.object){
             background.intervals.forEach(([x1, x2, y1, y2]) => {
                 for(let x = x1; x < x2; x++){
                     for(let y = y1; y < y2; y++){
                         const backgrounds = objects[background.object].backgrounds;
-                        createTiles(level, backgrounds, objects, x + offsetX, y + offsetY);
+                        tiles = tiles.concat(createTiles(backgrounds, objects, x + offsetX, y + offsetY));
                     }
                 }
             });
@@ -29,9 +51,8 @@ function createTiles(level, backgrounds, objects, offsetX = 0, offsetY = 0){
             background.intervals.forEach(([x1, x2, y1, y2]) => {
                 for(let x = x1; x < x2; x++){
                     for(let y = y1; y < y2; y++){
-                        level.tiles.set(x + offsetX, y + offsetY, {
-                            name: background.tile
-                        });
+                        let obj = {name: background.tile, x: x + offsetX, y : y + offsetY};
+                        tiles.push(obj);
                     }
                 }
             })
@@ -41,17 +62,16 @@ function createTiles(level, backgrounds, objects, offsetX = 0, offsetY = 0){
                 let step = 1;
                 for(let x = x1; x < x2; x++){
                     for(let y = y1; y < y2; y++){
-                        step === 1 ? level.tiles.set(x + offsetX, y + offsetY, {
-                            name: background.tileA
-                        }) : level.tiles.set(x + offsetX, y + offsetY, {
-                            name: background.tileB
-                        });;
+                        let obj = {x: x + offsetX, y: y + offsetY}
+                        step === 1 ? obj.name = background.tileA : obj.name = background.tileB;
                         step *= -1;
+                        tiles.push(obj);
                     }
                 }
             })
         }
-    })
+    });
+    return tiles;
 }
 
 function loadJSON(url) {
@@ -101,9 +121,13 @@ export function loadLevel(name){
         loadSpriteSheet(levelSpec.spriteSheet)
     ])).then(([levelSpecification, backgroundSprites]) => {
         const level = new Level();
-        createTiles(level, levelSpecification.backgrounds, levelSpecification.objects);
-        const backgroundLayer = createBackgroundLayer(level, backgroundSprites);
-        level.comp.layers.push(backgroundLayer);
+        const collisionGrid = createCollisionGrid(levelSpecification.layers[0].backgrounds, levelSpecification.objects);
+        level.createCollisionGrid(collisionGrid);
+        levelSpecification.layers.forEach(layer => {
+            const backgroundGrid = createBackgroundGrid(layer.backgrounds, levelSpecification.objects);
+            const backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundSprites);
+            level.comp.layers.push(backgroundLayer);
+        });
         const spriteLayer = createSpriteLayer(level.entities);
         level.comp.layers.push(spriteLayer);
         return level;

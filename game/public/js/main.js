@@ -33,7 +33,7 @@ Promise.all([
             cameraAcceleration = 0;
         }
         // Camera threshold right
-        else if(mario.pos.x > camera.pos.x + 400){
+        else if(mario.pos.x > camera.pos.x + 500){
             cameraAcceleration = 4.4;
         }
         else if(mario.pos.x < 150){
