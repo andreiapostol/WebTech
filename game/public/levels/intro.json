@@ -17,35 +17,14 @@
                 [
                     0, 16,
                     23, 24
-                ]
-            ]
-        },
-        {
-            "tileA": "lava00",
-            "tileB": "lava01",
-            "intervals": [
+                ],
                 [
-                    16, 22,
-                    22, 23
-                ]
-            ]
-        },
-        {
-            "tileA": "lava10",
-            "tileB": "lava11",
-            "intervals": [
-                [
-                    16, 22,
+                    22, 2000,
                     23, 24
-                ]
-            ]
-        },
-        {
-            "tile": "lava13",
-            "intervals": [
+                ],
                 [
-                    16, 22,
-                    24, 25
+                    40, 50,
+                    13, 14
                 ]
             ]
         },
@@ -55,23 +34,7 @@
                 [
                     22, 2000,
                     24, 25
-                ]
-            ]
-        },
-
-        {
-            "tileA": "groundA",
-            "tileB": "groundB",
-            "intervals": [
-                [
-                    22, 2000,
-                    23, 24
-                ]
-            ]
-        },
-        {
-            "tile": "underground",
-            "intervals": [
+                ],
                 [
                     0, 16,
                     24, 25
@@ -80,84 +43,315 @@
         },
 
         {
-            "tileA": "groundA",
-            "tileB": "groundB",
-            "intervals": [
+            "object": "box1W2H2",
+            "intervals":[
                 [
-                    33, 45,
-                    13, 14
-                ]
-            ]
-        },
-        {
-            "tileA": "square11A",
-            "tileB": "square11B",
-            "intervals": [
-                [
-                    14, 16,
+                    14, 15,
                     21, 22
-                ]
-            ]
-        },
-        {
-            "tileA": "square11C",
-            "tileB": "square11D",
-            "intervals": [
-                [
-                    14, 16,
-                    22, 23
                 ]
             ]
         },
 
         {
-            "tileA": "square31A",
-            "tileB": "square31B",
-            "intervals": [
+            "object": "box2W2H2",
+            "intervals":[
+                [ 
+                  22,23,
+                  21, 22
+                ],
                 [
-                    22, 26,
-                    21, 22
+                  24, 25,
+                  21, 22
+                ],
+                [ 22, 23,
+                  19, 20
+                ],
+                [ 24, 25,
+                  19, 20
+                ],
+
+                [ 
+                  34, 35,
+                  19, 20
+                ],
+                [ 
+                  34, 35,
+                  21, 22
                 ]
             ]
         },
+
         {
-            "tileA": "square31C",
-            "tileB": "square31D",
-            "intervals": [
-                [
-                    22, 26,
-                    22, 23
-                ]
+            "object": "lavaW6H2",
+            "intervals":[
+                [16, 17,
+                 22, 23]
             ]
         },
+
         {
-            "tileA": "square31A",
-            "tileB": "square31B",
-            "intervals": [
-                [
-                    22, 26,
-                    19, 20
-                ]
-            ]
-        },
-        {
-            "tileA": "square31C",
-            "tileB": "square31D",
-            "intervals": [
-                [
-                    22, 26,
-                    20, 21
-                ]
-            ]
-        },
-        {
-            "tile": "powerup-1",
-            "intervals": [
-                [
-                    20, 21,
-                    6, 7
-                ]
+            "object": "lavaW8H4",
+            "intervals":[
+                [26, 27,
+                 20, 21]
             ]
         }
-    ]
+    ],
+
+    "objects": {
+        "box1W2H2":{
+            "backgrounds": [
+                {
+                    "tileA": "square11A",
+                    "tileB": "square11B",
+                    "intervals": [
+                        [
+                            0, 2,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "square11C",
+                    "tileB": "square11D",
+                    "intervals": [
+                        [
+                            0, 2,
+                            1, 2
+                        ]
+                    ]
+                }        
+            ]
+        },
+        "box2W2H2":{
+            "backgrounds":[
+                {
+                    "tileA": "square31A",
+                    "tileB": "square31B",
+                    "intervals": [
+                        [
+                            0, 2,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "square31C",
+                    "tileB": "square31D",
+                    "intervals": [
+                        [
+                            0, 2,
+                            1, 2
+                        ]
+                    ]
+                }
+            ]
+        },
+        "lavaW6H2":{
+            "backgrounds":[
+                {
+                    "tileA": "lava00",
+                    "tileB": "lava01",
+                    "intervals": [
+                        [
+                            0, 6,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "lava10",
+                    "tileB": "lava11",
+                    "intervals": [
+                        [
+                            0, 6,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "object": "lavaBottom",
+                    "intervals": [
+                        [
+                            0, 6,
+                            2, 3
+                        ]
+                    ]
+                }
+            ]
+        },
+        "lavaW6H3":{
+            "backgrounds":[
+                {
+                    "tileA": "lava00",
+                    "tileB": "lava01",
+                    "intervals": [
+                        [
+                            0, 6,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "lava10",
+                    "tileB": "lava11",
+                    "intervals": [
+                        [
+                            0, 6,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "object": "lavaBottom",
+                    "intervals": [
+                        [
+                            0, 6,
+                            2, 3
+                        ],
+                        [
+                            0, 6,
+                            3, 4
+                        ]
+                    ]
+                }
+            ]
+        },
+        "lavaW6H4":{
+            "backgrounds":[
+                {
+                    "tileA": "lava00",
+                    "tileB": "lava01",
+                    "intervals": [
+                        [
+                            0, 6,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "lava10",
+                    "tileB": "lava11",
+                    "intervals": [
+                        [
+                            0, 6,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "object": "lavaBottom",
+                    "intervals": [
+                        [
+                            0, 6,
+                            2, 3
+                        ],
+                        [
+                            0, 6,
+                            3, 4
+                        ],
+                        [
+                            0, 6,
+                            4, 5
+                        ]
+                    ]
+                }
+            ]
+        },
+        "lavaW8H4":{
+            "backgrounds":[
+                {
+                    "tileA": "lava00",
+                    "tileB": "lava01",
+                    "intervals": [
+                        [
+                            0, 8,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "lava10",
+                    "tileB": "lava11",
+                    "intervals": [
+                        [
+                            0, 8,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "object": "lavaBottom",
+                    "intervals": [
+                        [
+                            0, 8,
+                            2, 3
+                        ],
+                        [
+                            0, 8,
+                            3, 4
+                        ],
+                        [
+                            0, 8,
+                            4, 5
+                        ]
+                    ]
+                }
+            ]
+        },
+        "lavaW10H4":{
+            "backgrounds":[
+                {
+                    "tileA": "lava00",
+                    "tileB": "lava01",
+                    "intervals": [
+                        [
+                            0, 10,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "lava10",
+                    "tileB": "lava11",
+                    "intervals": [
+                        [
+                            0, 10,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "object": "lavaBottom",
+                    "intervals": [
+                        [
+                            0, 10,
+                            2, 3
+                        ],
+                        [
+                            0, 10,
+                            3, 4
+                        ],
+                        [
+                            0, 10,
+                            4, 5
+                        ]
+                    ]
+                }
+            ]
+        },
+        "lavaBottom":{
+            "backgrounds":[
+                {
+                    "tile": "lava13",
+                    "intervals": [
+                        [
+                            0, 1,
+                            0, 1
+                        ]
+                    ]
+                }
+            ]
+        }
+    }
 }

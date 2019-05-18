@@ -13,13 +13,23 @@ export function loadImage(url){
     })
 }
 
-function createTiles(level, backgrounds){
+function createTiles(level, backgrounds, objects, offsetX = 0, offsetY = 0){
     backgrounds.forEach(background => {
-        if(background.tile){
+        if(background.object){
             background.intervals.forEach(([x1, x2, y1, y2]) => {
                 for(let x = x1; x < x2; x++){
                     for(let y = y1; y < y2; y++){
-                        level.tiles.set(x, y, {
+                        const backgrounds = objects[background.object].backgrounds;
+                        createTiles(level, backgrounds, objects, x + offsetX, y + offsetY);
+                    }
+                }
+            });
+        }
+        else if(background.tile){
+            background.intervals.forEach(([x1, x2, y1, y2]) => {
+                for(let x = x1; x < x2; x++){
+                    for(let y = y1; y < y2; y++){
+                        level.tiles.set(x + offsetX, y + offsetY, {
                             name: background.tile
                         });
                     }
@@ -31,9 +41,9 @@ function createTiles(level, backgrounds){
                 let step = 1;
                 for(let x = x1; x < x2; x++){
                     for(let y = y1; y < y2; y++){
-                        step === 1 ? level.tiles.set(x, y, {
+                        step === 1 ? level.tiles.set(x + offsetX, y + offsetY, {
                             name: background.tileA
-                        }) : level.tiles.set(x, y, {
+                        }) : level.tiles.set(x + offsetX, y + offsetY, {
                             name: background.tileB
                         });;
                         step *= -1;
@@ -91,7 +101,7 @@ export function loadLevel(name){
         loadSpriteSheet(levelSpec.spriteSheet)
     ])).then(([levelSpecification, backgroundSprites]) => {
         const level = new Level();
-        createTiles(level, levelSpecification.backgrounds);
+        createTiles(level, levelSpecification.backgrounds, levelSpecification.objects);
         const backgroundLayer = createBackgroundLayer(level, backgroundSprites);
         level.comp.layers.push(backgroundLayer);
         const spriteLayer = createSpriteLayer(level.entities);
