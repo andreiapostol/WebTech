@@ -24,11 +24,20 @@ Promise.all([
     input.listenTo(window);
 
     const timer = new Timer(1/60);
+    let cameraAcceleration = 1.25;
     timer.update = function update(deltaTime) {
         level.update(deltaTime);
-        if(mario.pos.x > 150){
-            camera.pos.x = mario.pos.x - 150;
+        if(camera.pos.x > mario.pos.x + 20){
+            console.log("SCORE: " + Math.floor(camera.pos.x / 10));
+            cameraAcceleration = 0;
         }
+        else if(mario.pos.x > camera.pos.x + 400){
+            cameraAcceleration = 4.4;
+        }
+        else{
+            cameraAcceleration = 1.25;
+        }
+        camera.pos.x += cameraAcceleration;
         level.comp.draw(context, camera);
     }
 
