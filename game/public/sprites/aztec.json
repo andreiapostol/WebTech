@@ -65,6 +65,24 @@
             "index": [7, 3]
         },
         {
+            "name": "square40A",
+            "index": [8, 0]
+        },
+        {
+            "name": "square40B",
+            "index": [9, 0]
+        }
+        ,
+        {
+            "name": "square40C",
+            "index": [8, 1]
+        }
+        ,
+        {
+            "name": "square40D",
+            "index": [9, 1]
+        },
+        {
             "name": "lava00",
             "index": [0, 14]
         },

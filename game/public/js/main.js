@@ -14,7 +14,7 @@ Promise.all([
 .then(([mario, level]) => {
     const camera = new Camera();
     window.camera = camera;
-    mario.pos.set(64, 64);
+    mario.pos.set(50, 250);
 
     // level.comp.layers.push(createCollisionLayer(level), createCameraLayer(camera));
 
@@ -32,9 +32,12 @@ Promise.all([
             console.log("SCORE: " + Math.floor(camera.pos.x / 10));
             cameraAcceleration = 0;
         }
-        // Camera threshold
+        // Camera threshold right
         else if(mario.pos.x > camera.pos.x + 400){
             cameraAcceleration = 4.4;
+        }
+        else if(mario.pos.x < 150){
+            cameraAcceleration = 0;
         }
         // Base case
         else{
