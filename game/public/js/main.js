@@ -27,15 +27,18 @@ Promise.all([
     let cameraAcceleration = 1.25;
     timer.update = function update(deltaTime) {
         level.update(deltaTime);
+        // Game Over
         if(camera.pos.x > mario.pos.x + 20){
             console.log("SCORE: " + Math.floor(camera.pos.x / 10));
             cameraAcceleration = 0;
         }
+        // Camera threshold
         else if(mario.pos.x > camera.pos.x + 400){
             cameraAcceleration = 4.4;
         }
+        // Base case
         else{
-            cameraAcceleration = 1.25;
+            cameraAcceleration = Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 3.5);
         }
         camera.pos.x += cameraAcceleration;
         level.comp.draw(context, camera);

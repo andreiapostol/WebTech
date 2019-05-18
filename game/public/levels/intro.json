@@ -5,7 +5,7 @@
             "tile": "background",
             "intervals": [
                 [
-                    0, 200,
+                    0, 2000,
                     0, 25
                 ]
             ]
@@ -53,7 +53,7 @@
             "tile": "underground",
             "intervals": [
                 [
-                    22, 200,
+                    22, 2000,
                     24, 25
                 ]
             ]
@@ -64,7 +64,7 @@
             "tileB": "groundB",
             "intervals": [
                 [
-                    22, 200,
+                    22, 2000,
                     23, 24
                 ]
             ]
