@@ -16,7 +16,9 @@ export function loadImage(url){
 
 function createCollisionGrid(backgrounds, objects){
     const layer = new Matrix();
-    for(const {name, x, y} of createTiles(backgrounds, objects)){
+    const createdTiles = createTiles(backgrounds, objects);
+    console.log(createdTiles);
+    for(const {name, x, y} of createdTiles){
         layer.set(x, y, {
             name: name
         });
@@ -36,13 +38,15 @@ function createBackgroundGrid(backgrounds, objects){
 
 function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
     let tiles = [];
+    // console.log('Backgrounds', backgrounds);
+    // console.log('Objects', objects);
     backgrounds.forEach(background => {
         if(background.object){
             background.intervals.forEach(([x1, x2, y1, y2]) => {
                 for(let x = x1; x < x2; x++){
                     for(let y = y1; y < y2; y++){
-                        const backgrounds = objects[background.object].backgrounds;
-                        tiles = tiles.concat(createTiles(backgrounds, objects, x + offsetX, y + offsetY));
+                        const createdBackgrounds = objects[background.object].backgrounds;
+                        tiles = tiles.concat(createTiles(createdBackgrounds, objects, x + offsetX, y + offsetY));
                     }
                 }
             });
@@ -71,6 +75,28 @@ function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
             })
         }
     });
+    // tiles.push({x: 2, y: 2, name: 'lava01'});
+    // tiles.push({x: 2, y: 3, name: 'lava00'});
+    // console.log(tiles);
+    return tiles;
+}
+
+export function createNextTileMatrices(startAtX, layer){
+    for(const {name, x, y} of generateNextTiles("background", startAtX, startAtX + 50)){
+        layer.set(x, y, {
+            name: name
+        });
+    }
+    return layer;
+}
+
+function generateNextTiles(defaultBackground, startAtX, endAtX){
+    let tiles = [];
+    for(let i = startAtX; i < endAtX; i++){
+        for(let j = 0; j < 25; j++){
+            tiles.push({x: i, y: j, name: defaultBackground});
+        }
+    }
     return tiles;
 }
 
@@ -121,6 +147,7 @@ export function loadLevel(name){
         loadSpriteSheet(levelSpec.spriteSheet)
     ])).then(([levelSpecification, backgroundSprites]) => {
         const level = new Level();
+        console.log(levelSpecification.layers[0].backgrounds, levelSpecification.objects);
         const collisionGrid = createCollisionGrid(levelSpecification.layers[0].backgrounds, levelSpecification.objects);
         level.createCollisionGrid(collisionGrid);
         levelSpecification.layers.forEach(layer => {
@@ -130,6 +157,7 @@ export function loadLevel(name){
         });
         const spriteLayer = createSpriteLayer(level.entities);
         level.comp.layers.push(spriteLayer);
+        // console.log(level);
         return level;
     });
 }
