@@ -52,7 +52,7 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
     backgrounds.push(getBackgroundBetweenPositions(currentEdge, currentEdge + 50, 0, 25));
-    backgrounds.push(getFloorBetweenPositions(currentEdge, currentEdge + 50, 23, 25));
+    backgrounds.push(getFloorBetweenPositions(currentEdge, currentEdge + 50, 23, 24));
     
     let objects = oldLevelSpecification.objects;
 
