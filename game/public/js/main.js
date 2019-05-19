@@ -1,6 +1,6 @@
 import Camera from './Camera.js';
 import Timer from './Timer.js';
-import {loadLevel, createNextTileMatrices} from './loaders.js';
+import {loadLevel, updateLevel} from './loaders.js';
 import {createMario} from './entities.js';import {setupKeyboard} from './input.js';
 import {setupMouseControl} from './debugging.js';
 // import {createNextTileMatrices} from '.'
@@ -13,7 +13,7 @@ Promise.all([
     createMario(),
     loadLevel('intro'),
 ])
-.then(([mario, level]) => {
+.then(([mario, [level,levelSpecification,backgroundSprites]]) => {
     console.log(mario);
     console.log(level);
     // maxRendered = Math.max(maxRendered)
@@ -22,8 +22,9 @@ Promise.all([
     mario.pos.set(50, 250);
 
     // level.comp.layers.push(createCollisionLayer(level), createCameraLayer(camera));
-
+    
     level.entities.add(mario);
+    let savedEntities = level.entities;
 
     const input = setupKeyboard(mario);
     input.listenTo(window);
@@ -32,13 +33,18 @@ Promise.all([
     let cameraAcceleration = 1.25;
     let i = 0;
     timer.update = function update(deltaTime) {
+        savedEntities = level.entities;
+
+        // console.log(camera.pos.x);
         // if(i % 250 == 0)
             // console.log(level);
         level.update(deltaTime);
         // console.log(mario.pos.x);
-        if(mario.pos.x / 16 >= level.tileCollider.tiles.matrix.grid.length){
+        if((camera.pos.x + 650) / 16 >= level.tileCollider.tiles.matrix.grid.length){
             console.log(mario.pos.x);
-            level.tileCollider.tiles.matrix = createNextTileMatrices(level.tileCollider.tiles.matrix.grid.length-1, level.tileCollider.tiles.matrix);
+            // level.tileCollider.tiles.matrix = createNextTileMatrices(level.tileCollider.tiles.matrix.grid.length-1, level.tileCollider.tiles.matrix);
+            level = updateLevel(level, levelSpecification, backgroundSprites);
+            level.entities = savedEntities;
             console.log(level);
         }
         // Game Over

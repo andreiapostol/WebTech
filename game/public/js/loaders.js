@@ -35,6 +35,48 @@ function createBackgroundGrid(backgrounds, objects){
     }
     return layer;
 }
+export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites){
+    // const newCollisionGrid = 
+    const level = new Level();
+    level.entities = oldLevel.entities;
+    // let backgrounds = oldLevelSpecification.layers[0].backgrounds;
+    let backgrounds = [];
+    let objects = oldLevelSpecification.objects;
+    let continuingBackground = {tile: "background", intervals: [[125, 175, 0, 25]]};
+    backgrounds.push(continuingBackground);
+    // backgrounds.push()
+    const collisionGrid = createCollisionGrid(backgrounds, objects);
+    level.createCollisionGrid(collisionGrid);
+    oldLevelSpecification.layers.forEach(layer => {
+        // console.log(layer.backgrounds, oldLevelSpecification.objects);
+        const backgroundGrid = createBackgroundGrid(layer.backgrounds, oldLevelSpecification.objects);
+        const backgroundLayer = createBackgroundLayer(level, backgroundGrid, oldBackgroundSprites);
+        level.comp.layers.push(backgroundLayer);
+    });
+    const spriteLayer = createSpriteLayer(level.entities);
+    level.comp.layers.push(spriteLayer);
+    // console.log(level);
+    return level;
+
+}
+// export function createNextCollisionGrid(startAtX, layer){
+//     for(const {name, x, y} of generateNextTiles("background", startAtX, startAtX + 50)){
+//         layer.set(x, y, {
+//             name: name
+//         });
+//     }
+//     return layer;
+// }
+
+// function generateNextTiles(defaultBackground, startAtX, endAtX){
+//     let tiles = [];
+//     for(let i = startAtX; i < endAtX; i++){
+//         for(let j = 0; j < 25; j++){
+//             tiles.push({x: i, y: j, name: defaultBackground});
+//         }
+//     }
+//     return tiles;
+// }
 
 function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
     let tiles = [];
@@ -78,25 +120,6 @@ function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
     // tiles.push({x: 2, y: 2, name: 'lava01'});
     // tiles.push({x: 2, y: 3, name: 'lava00'});
     // console.log(tiles);
-    return tiles;
-}
-
-export function createNextTileMatrices(startAtX, layer){
-    for(const {name, x, y} of generateNextTiles("background", startAtX, startAtX + 50)){
-        layer.set(x, y, {
-            name: name
-        });
-    }
-    return layer;
-}
-
-function generateNextTiles(defaultBackground, startAtX, endAtX){
-    let tiles = [];
-    for(let i = startAtX; i < endAtX; i++){
-        for(let j = 0; j < 25; j++){
-            tiles.push({x: i, y: j, name: defaultBackground});
-        }
-    }
     return tiles;
 }
 
@@ -151,13 +174,15 @@ export function loadLevel(name){
         const collisionGrid = createCollisionGrid(levelSpecification.layers[0].backgrounds, levelSpecification.objects);
         level.createCollisionGrid(collisionGrid);
         levelSpecification.layers.forEach(layer => {
+            console.log(layer.backgrounds, levelSpecification.objects);
             const backgroundGrid = createBackgroundGrid(layer.backgrounds, levelSpecification.objects);
             const backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundSprites);
             level.comp.layers.push(backgroundLayer);
         });
+        console.log('Before', level.entities);
         const spriteLayer = createSpriteLayer(level.entities);
         level.comp.layers.push(spriteLayer);
-        // console.log(level);
-        return level;
+        console.log('After', level.entities);
+        return [level, levelSpecification, backgroundSprites];
     });
 }
