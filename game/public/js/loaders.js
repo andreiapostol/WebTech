@@ -35,28 +35,46 @@ function createBackgroundGrid(backgrounds, objects){
     }
     return layer;
 }
+
+function getBackgroundBetweenPositions(posAx, posBx, posAy, posBy){
+    return {tile: "background", intervals: [[posAx, posBx, posAy, posBy]]};
+}
+
+function getFloorBetweenPositions(posAx, posBx, posAy, posBy){
+    return {tileA: "groundA", tileB: "groundB", intervals: [[posAx, posBx, posAy, posBy]]};
+}
 export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites){
     // const newCollisionGrid = 
     const level = new Level();
     level.entities = oldLevel.entities;
+
+    const currentEdge = oldLevel.tileCollider.tiles.matrix.grid.length;
+
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
-    // let backgrounds = [];
+    backgrounds.push(getBackgroundBetweenPositions(currentEdge, currentEdge + 50, 0, 25));
+    backgrounds.push(getFloorBetweenPositions(currentEdge, currentEdge + 50, 23, 25));
+    
     let objects = oldLevelSpecification.objects;
-    let continuingBackground = {tile: "background", intervals: [[125, 175, 0, 25]]};
-    backgrounds.push(continuingBackground);
-    // backgrounds.push()
+
     const collisionGrid = createCollisionGrid(backgrounds, objects);
     level.createCollisionGrid(collisionGrid);
+    
     oldLevelSpecification.layers.forEach(layer => {
-        // console.log(layer.backgrounds, oldLevelSpecification.objects);
         const backgroundGrid = createBackgroundGrid(layer.backgrounds, oldLevelSpecification.objects);
         const backgroundLayer = createBackgroundLayer(level, backgroundGrid, oldBackgroundSprites);
         level.comp.layers.push(backgroundLayer);
     });
     const spriteLayer = createSpriteLayer(level.entities);
     level.comp.layers.push(spriteLayer);
-    // console.log(level);
-    return level;
+
+    let newLevelSpecification = {};
+    newLevelSpecification.layers = oldLevelSpecification.layers;
+    newLevelSpecification.objects = objects;
+    newLevelSpecification.backgrounds = backgrounds;
+
+    let newBackgroundSprites = oldBackgroundSprites;
+
+    return [level, newLevelSpecification, newBackgroundSprites];
 
 }
 // export function createNextCollisionGrid(startAtX, layer){

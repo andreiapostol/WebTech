@@ -34,19 +34,14 @@ Promise.all([
     let i = 0;
     timer.update = function update(deltaTime) {
         savedEntities = level.entities;
-
-        // console.log(camera.pos.x);
-        // if(i % 250 == 0)
-            // console.log(level);
         level.update(deltaTime);
-        // console.log(mario.pos.x);
+        
         if((camera.pos.x + 650) / 16 >= level.tileCollider.tiles.matrix.grid.length){
-            console.log(mario.pos.x);
-            // level.tileCollider.tiles.matrix = createNextTileMatrices(level.tileCollider.tiles.matrix.grid.length-1, level.tileCollider.tiles.matrix);
-            level = updateLevel(level, levelSpecification, backgroundSprites);
+            [level, levelSpecification, backgroundSprites] = updateLevel(level, levelSpecification, backgroundSprites);
             level.entities = savedEntities;
             console.log(level);
         }
+        
         // Game Over
         if(camera.pos.x > mario.pos.x + 20){
             // console.log("SCORE: " + Math.floor(camera.pos.x / 10));
