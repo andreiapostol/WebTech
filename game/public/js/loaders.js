@@ -39,8 +39,8 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     // const newCollisionGrid = 
     const level = new Level();
     level.entities = oldLevel.entities;
-    // let backgrounds = oldLevelSpecification.layers[0].backgrounds;
-    let backgrounds = [];
+    let backgrounds = oldLevelSpecification.layers[0].backgrounds;
+    // let backgrounds = [];
     let objects = oldLevelSpecification.objects;
     let continuingBackground = {tile: "background", intervals: [[125, 175, 0, 25]]};
     backgrounds.push(continuingBackground);
