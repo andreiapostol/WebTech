@@ -44,3 +44,13 @@ export class Vec2 {
         this.y = y;
     }
 }
+
+export function copyMatrixValues(a){
+    let temp = new Matrix();
+    for(let i = 0; i < a.grid.length; i++){
+        for(let j = 0; j < a.grid[i].length; j++){
+            temp.set(i, j, a.get(i, j));
+        }
+    }
+    return temp;
+}

@@ -1,3 +1,4 @@
+import {Matrix, copyMatrixValues} from './math.js';
 export default class TileResolver {
     constructor(matrix, tileSize = 16) {
         this.matrix = matrix;
@@ -6,6 +7,11 @@ export default class TileResolver {
 
     addNewTiles(addedBackground){
         this.matrix.concatMatrix(addedBackground);
+    }
+
+    setTiles(valoare){
+        this.matrix = copyMatrixValues(valoare);
+        console.log(this.matrix);
     }
 
     toIndex(pos) {

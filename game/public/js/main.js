@@ -27,7 +27,7 @@ Promise.all([
     mario.pos.set(50, 340);
 
     // level.comp.layers.push(createCollisionLayer(level), createCameraLayer(camera));
-
+    const initialTiles = level.tileCollider.tiles.matrix;
     level.entities.add(mario);
     let savedEntities = level.entities;
 
@@ -52,6 +52,7 @@ Promise.all([
                 mario.addTrait(new Jump());
                 resetScore();
                 mario.gameOver = false;
+                level.tileCollider.tiles.setTiles(initialTiles);
             }
         }
         else{
@@ -82,7 +83,7 @@ Promise.all([
             }
             
             camera.pos.x += cameraAcceleration;
-            level.comp.layers[3] = generateDashboard(font, Math.floor(mario.pos.x / 100) - 1);
+            level.comp.layers[3] = generateDashboard(font, Math.floor(mario.pos.x / 30) - 1);
             level.comp.draw(context, camera);
             i++;
                     

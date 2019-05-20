@@ -83,6 +83,11 @@ function getLavaAndBlocksBetweenPositions(posAx, posBx, height){
     return allObjects;
 }
 
+function getTreeAtPosition(posAx, posAy){ 
+    return {object: "tree", intervals: [[posAx, posAx + 1, posAy, posAy + 1]]};
+}
+
+
 function getRandomBetweenValues(a, b){
     return Math.floor(Math.random()*(b-a+1)+a);
 }
@@ -97,6 +102,7 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + 100, 0, 25);
     let newFloors = getFloorBetweenPositions(currentEdge, currentEdge + 100, 23, 24);
     let newBox = getNormalBlockBetweenPositions(currentEdge, currentEdge + 1, 21, 22);
+    let tree = getTreeAtPosition(currentEdge + 10, 17);
 
     const lavaIntervalSize = getRandomBetweenValues(8, 12);
     const lavaIntervalHeight = getRandomBetweenValues(2, 5);
@@ -109,6 +115,7 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     backgrounds.push(newBackgrounds);
     backgrounds.push(newFloors);
     backgrounds.push(newBox);
+    backgrounds.push(tree);
 
     backgrounds.push(...lavaAndBlocks);
     
