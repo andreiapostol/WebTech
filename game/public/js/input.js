@@ -9,6 +9,14 @@ export function setupKeyboard(entity) {
         } else {
             entity.jump.cancel();
         }
+        
+    });
+
+    input.addMapping('Space', keyState => {
+        if (keyState && entity.gameOver) {
+            entity.pos.set(50, 340);
+            input.keyStates = new Map();
+        }
     });
 
     input.addMapping('ArrowRight', keyState => {

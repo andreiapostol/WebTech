@@ -4,6 +4,12 @@ function writeText(font, string, context, x, y){
     })
 }
 let maxScore = 0;
+let called = 0;
+export function resetScore(){
+    maxScore = 0;
+    called = 0;
+}
+
 export function generateDashboard(font, score){
     return function drawDashboard(context){
         if(score > maxScore){
@@ -13,7 +19,7 @@ export function generateDashboard(font, score){
     }
 }
 
-let called = 0;
+
 export function displayGameOver(font){
     return function drawGameOver(context){
         if(!called){

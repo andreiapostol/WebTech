@@ -3,8 +3,10 @@ import Timer from './Timer.js';
 import {loadLevel, updateLevel, loadFont} from './loaders.js';
 import {createMario} from './entities.js';import {setupKeyboard} from './input.js';
 import {setupMouseControl} from './debugging.js';
-import {generateDashboard, displayGameOver} from './dashboard.js';
+import {generateDashboard, displayGameOver, resetScore} from './dashboard.js';
 import { Trait } from './Entity.js';
+import Go from './traits/Go.js';
+import Jump from './traits/Jump.js';
 // import {createNextTileMatrices} from '.'
 
 const canvas = document.getElementById('screen');
@@ -22,27 +24,35 @@ Promise.all([
     // maxRendered = Math.max(maxRendered)
     const camera = new Camera();
     window.camera = camera;
-    mario.pos.set(50, 250);
+    mario.pos.set(50, 340);
 
     // level.comp.layers.push(createCollisionLayer(level), createCameraLayer(camera));
 
     level.entities.add(mario);
     let savedEntities = level.entities;
 
-    const input = setupKeyboard(mario);
-    input.listenTo(window);
+
 
     const timer = new Timer(1/60);
     let cameraAcceleration = 1.25;
     let i = 0;
-    let gameOver = false;
+    mario.gameOver = false;
+    const input = setupKeyboard(mario);
+    input.listenTo(window);
     timer.update = function update(deltaTime) {
         savedEntities = level.entities;
-        if(gameOver){
+        if(mario.gameOver){
             level.comp.layers[4] = displayGameOver(font);
             level.comp.draw(context, camera);
-            return;
-            
+            if(mario.pos.x === 50){
+                camera.pos.x = 0;
+                level.comp.layers[4] = function(){};
+                mario.traits = [];
+                mario.addTrait(new Go());
+                mario.addTrait(new Jump());
+                resetScore();
+                mario.gameOver = false;
+            }
         }
         else{
             level.update(deltaTime);
@@ -57,7 +67,7 @@ Promise.all([
             // Game Over
             if(camera.pos.x > mario.pos.x + 20 || mario.traits.some(e => e.NAME === 'dead')){
                 cameraAcceleration = 0;
-                gameOver = true;
+                mario.gameOver = true;
             }
             // Camera threshold right
             else if(mario.pos.x > camera.pos.x + 500){
