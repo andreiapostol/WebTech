@@ -1,4 +1,5 @@
 import TileResolver from './TileResolver.js';
+import { Trait } from './Entity.js';
 
 export default class TileCollider {
     constructor(tileMatrix) {
@@ -27,6 +28,12 @@ export default class TileCollider {
             if (match.tile.name === 'background') {
                 return;
             }
+
+            if (match.tile.name.includes('lava')) {
+                entity.traits.push(new Trait('dead'));
+                return;
+            }
+            
 
             if (entity.vel.x > 0) {
                 if (entity.pos.x + entity.size.x > match.x1) {
@@ -60,6 +67,11 @@ export default class TileCollider {
 
         matches.forEach(match => {
             if (match.tile.name === 'background') {
+                return;
+            }
+
+            if (match.tile.name.includes('lava')) {
+                entity.traits.push(new Trait('dead'));
                 return;
             }
 

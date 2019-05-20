@@ -12,3 +12,16 @@ export function generateDashboard(font, score){
         writeText(font, "SCORE:" + maxScore.toString().padStart(5, '0'), context, 550, 16);
     }
 }
+
+let called = 0;
+export function displayGameOver(font){
+    return function drawGameOver(context){
+        if(!called){
+            console.log("GAME OVER. SCORE: " + maxScore);
+            called = 1;
+        }
+        writeText(font, "GAME OVER!", context, 290, 190);
+        writeText(font, "PRESS SPACEBAR TO RETRY.", context, 238, 206);
+    }
+  
+}
