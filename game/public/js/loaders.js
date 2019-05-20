@@ -54,6 +54,38 @@ function getBackgroundBetweenPositions(posAx, posBx, posAy, posBy){
 function getFloorBetweenPositions(posAx, posBx, posAy, posBy){
     return {tileA: "groundA", tileB: "groundB", intervals: [[posAx, posBx, posAy, posBy]]};
 }
+
+function getNormalBlockBetweenPositions(posAx, posBx, posAy, posBy){ 
+    let allIntervals = [];
+    for(let i = posAy; i < posBy; i+=2){
+        allIntervals.push([posAx, posBx, i, i+1]);
+    }
+    return {object: "box2W2H2", intervals: allIntervals};
+}
+
+function getLavaBetweenPositions(posAx, posBx, posAy, posBy){
+    let allLava = [];
+    allLava.push({tileA: "lava00", tileB: "lava01", intervals:[[posAx, posBx, posAy, posAy+1]]});
+    if(posBy - 1 > posAy)
+        allLava.push({tileA: "lava10", tileB: "lava11", intervals:[[posAx, posBx, posAy+1, posAy+2]]});
+    if(posBy - 2 > posAy)
+        allLava.push({object: "lavaBottom", intervals:[[posAx, posBx, posAy+2, posBy]]});
+    return allLava;
+}
+
+function getLavaAndBlocksBetweenPositions(posAx, posBx, height){
+    let allObjects = [];
+    if(posAx >= posBx - 4)
+        return allObjects;
+    allObjects.push(getNormalBlockBetweenPositions(posAx, posAx+1, 25 - height, 25));
+    allObjects.push(...getLavaBetweenPositions(posAx + 2, posBx - 1, 25 - height, 25));
+    allObjects.push(getNormalBlockBetweenPositions(posBx-1, posBx, 25 - height, 25));
+    return allObjects;
+}
+
+function getRandomBetweenValues(a, b){
+    return Math.floor(Math.random()*(b-a+1)+a);
+}
 export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites){
     // const newCollisionGrid = 
     const level = new Level();
@@ -64,16 +96,28 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + 100, 0, 25);
     let newFloors = getFloorBetweenPositions(currentEdge, currentEdge + 100, 23, 24);
+    let newBox = getNormalBlockBetweenPositions(currentEdge, currentEdge + 1, 21, 22);
+
+    const lavaIntervalSize = getRandomBetweenValues(8, 12);
+    const lavaIntervalHeight = getRandomBetweenValues(2, 5);
+    const lavaBeginning = getRandomBetweenValues(currentEdge, currentEdge + 100 - lavaIntervalSize);
+    console.log(lavaIntervalSize, lavaIntervalHeight, lavaBeginning);
+    
+    let lavaAndBlocks = getLavaAndBlocksBetweenPositions(lavaBeginning, lavaBeginning + lavaIntervalSize, lavaIntervalHeight);
+    // let lavaAndBlocks = getLavaAndBlocksBetweenPositions(currentEdge, currentEdge + 11, 5);
 
     backgrounds.push(newBackgrounds);
     backgrounds.push(newFloors);
+    backgrounds.push(newBox);
+
+    backgrounds.push(...lavaAndBlocks);
     
     let objects = oldLevelSpecification.objects;
 
     // const collisionGrid = createCollisionGrid(backgrounds, objects);
     // level.createCollisionGrid(collisionGrid);
 
-    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, newFloors], objects);
+    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, newFloors, newBox, ...lavaAndBlocks], objects);
     console.log(updatedCollisionGrid);
     console.log(oldLevel.tileCollider);
     oldLevel.updateCollisionGrid(updatedCollisionGrid);
@@ -99,24 +143,6 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     return [level, newLevelSpecification, newBackgroundSprites];
 
 }
-// export function createNextCollisionGrid(startAtX, layer){
-//     for(const {name, x, y} of generateNextTiles("background", startAtX, startAtX + 50)){
-//         layer.set(x, y, {
-//             name: name
-//         });
-//     }
-//     return layer;
-// }
-
-// function generateNextTiles(defaultBackground, startAtX, endAtX){
-//     let tiles = [];
-//     for(let i = startAtX; i < endAtX; i++){
-//         for(let j = 0; j < 25; j++){
-//             tiles.push({x: i, y: j, name: defaultBackground});
-//         }
-//     }
-//     return tiles;
-// }
 
 function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
     let tiles = [];
