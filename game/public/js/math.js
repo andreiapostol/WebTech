@@ -26,6 +26,12 @@ export class Matrix {
 
         this.grid[x][y] = value;
     }
+
+    concatMatrix(otherMatrix){
+        for(let i = this.grid.length; i < otherMatrix.grid.length; i++)
+            this.grid[i] = otherMatrix.grid[i];
+        // this.grid = this.grid.concat(otherMatrix.grid);
+    }
 }
 
 export class Vec2 {

@@ -5,6 +5,10 @@ export default class TileCollider {
         this.tiles = new TileResolver(tileMatrix);
     }
 
+    addNewInfo(addedBackgrounds){
+        this.tiles.addNewTiles(addedBackgrounds);
+    }
+
     checkX(entity) {
         let x;
         if (entity.vel.x > 0) {
@@ -51,6 +55,8 @@ export default class TileCollider {
         const matches = this.tiles.searchByRange(
             entity.pos.x, entity.pos.x + entity.size.x,
             y, y);
+        
+        // console.log('Matches are ', matches, 'entity is', entity, 'tiles are', this.tiles);
 
         matches.forEach(match => {
             if (match.tile.name === 'background') {

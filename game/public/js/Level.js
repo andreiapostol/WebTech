@@ -15,6 +15,10 @@ export default class Level {
         this.tileCollider = new TileCollider(m);
     }
 
+    updateCollisionGrid(addedBackgrounds){
+        this.tileCollider.addNewInfo(addedBackgrounds);
+    }
+
     update(deltaTime) {
         this.entities.forEach(entity => {
             entity.update(deltaTime);

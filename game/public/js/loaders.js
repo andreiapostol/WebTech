@@ -51,13 +51,23 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     const currentEdge = oldLevel.tileCollider.tiles.matrix.grid.length;
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
-    backgrounds.push(getBackgroundBetweenPositions(currentEdge, currentEdge + 50, 0, 25));
-    backgrounds.push(getFloorBetweenPositions(currentEdge, currentEdge + 50, 23, 24));
+    let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + 100, 0, 25);
+    let newFloors = getFloorBetweenPositions(currentEdge, currentEdge + 100, 23, 24);
+
+    backgrounds.push(newBackgrounds);
+    backgrounds.push(newFloors);
     
     let objects = oldLevelSpecification.objects;
 
-    const collisionGrid = createCollisionGrid(backgrounds, objects);
-    level.createCollisionGrid(collisionGrid);
+    // const collisionGrid = createCollisionGrid(backgrounds, objects);
+    // level.createCollisionGrid(collisionGrid);
+
+    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, newFloors], objects);
+    console.log(updatedCollisionGrid);
+    console.log(oldLevel.tileCollider);
+    oldLevel.updateCollisionGrid(updatedCollisionGrid);
+    console.log(oldLevel.tileCollider);
+    level.tileCollider = oldLevel.tileCollider;
     
     oldLevelSpecification.layers.forEach(layer => {
         const backgroundGrid = createBackgroundGrid(layer.backgrounds, oldLevelSpecification.objects);
@@ -73,6 +83,7 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     newLevelSpecification.backgrounds = backgrounds;
 
     let newBackgroundSprites = oldBackgroundSprites;
+
 
     return [level, newLevelSpecification, newBackgroundSprites];
 

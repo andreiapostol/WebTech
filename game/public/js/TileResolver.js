@@ -4,6 +4,10 @@ export default class TileResolver {
         this.tileSize = tileSize;
     }
 
+    addNewTiles(addedBackground){
+        this.matrix.concatMatrix(addedBackground);
+    }
+
     toIndex(pos) {
         return Math.floor(pos / this.tileSize);
     }
