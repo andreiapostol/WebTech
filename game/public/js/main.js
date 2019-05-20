@@ -62,7 +62,7 @@ Promise.all([
         }
         
         camera.pos.x += cameraAcceleration;
-        level.comp.layers[3] = generateDashboard(font, Math.floor(camera.pos.x / 50));
+        level.comp.layers[3] = generateDashboard(font, Math.floor(mario.pos.x / 100) - 1);
         level.comp.draw(context, camera);
         i++;
     }
