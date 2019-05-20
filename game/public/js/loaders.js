@@ -1,7 +1,7 @@
 import Level from './level.js';
 import SpriteSheet from './SpriteSheet.js';
 import {createBackgroundLayer, createSpriteLayer } from './layers.js';
-import { generateAnimationFromFrames } from './animation.js';
+import {generateAnimationFromFrames} from './animation.js';
 import {Matrix} from './math.js';
 
 export function loadImage(url){
@@ -12,6 +12,17 @@ export function loadImage(url){
         });
         image.src = url;
     })
+}
+
+export function loadFont(){
+    return loadImage('./img/font.png').then(font => {
+        let temp = new SpriteSheet(font);
+        const hack = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+        for(let [index, caracter] of [...hack].entries()){
+            temp.define(caracter, index * 8 % font.width, Math.floor(index * 8 / font.width) * 8, 8, 8);
+        }
+        return temp;
+    });
 }
 
 function createCollisionGrid(backgrounds, objects){

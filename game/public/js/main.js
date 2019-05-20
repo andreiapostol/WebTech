@@ -1,8 +1,9 @@
 import Camera from './Camera.js';
 import Timer from './Timer.js';
-import {loadLevel, updateLevel} from './loaders.js';
+import {loadLevel, updateLevel, loadFont} from './loaders.js';
 import {createMario} from './entities.js';import {setupKeyboard} from './input.js';
 import {setupMouseControl} from './debugging.js';
+import {generateDashboard} from './dashboard.js';
 // import {createNextTileMatrices} from '.'
 
 const canvas = document.getElementById('screen');
@@ -12,8 +13,9 @@ const maxRendered = 0;
 Promise.all([
     createMario(),
     loadLevel('intro'),
+    loadFont()
 ])
-.then(([mario, [level,levelSpecification,backgroundSprites]]) => {
+.then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
     console.log(mario);
     console.log(level);
     // maxRendered = Math.max(maxRendered)
@@ -22,7 +24,7 @@ Promise.all([
     mario.pos.set(50, 250);
 
     // level.comp.layers.push(createCollisionLayer(level), createCameraLayer(camera));
-    
+
     level.entities.add(mario);
     let savedEntities = level.entities;
 
@@ -56,9 +58,11 @@ Promise.all([
         }
         // Base case
         else{
-            cameraAcceleration = Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 3.5);
+            cameraAcceleration =    Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 3.5);
         }
+        
         camera.pos.x += cameraAcceleration;
+        level.comp.layers[3] = generateDashboard(font, Math.floor(camera.pos.x / 50));
         level.comp.draw(context, camera);
         i++;
     }
