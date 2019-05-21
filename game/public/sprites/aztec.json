@@ -5,6 +5,50 @@
 
     "tiles": [
         {
+            "name": "torchA-1",
+            "index": [10, 8]
+        },
+        {
+            "name": "torchB-1",
+            "index": [10, 9]
+        },
+        {
+            "name": "torchA-2",
+            "index": [11, 8]
+        },
+        {
+            "name": "torchB-2",
+            "index": [11, 9]
+        },
+        {
+            "name": "torchA-3",
+            "index": [12, 8]
+        },
+        {
+            "name": "torchB-3",
+            "index": [12, 9]
+        },
+        {
+            "name": "column0",
+            "index": [3, 17]
+        },
+        {
+            "name": "column1",
+            "index": [3, 18]
+        },
+        {
+            "name": "column2",
+            "index": [3, 19]
+        },
+        {
+            "name": "columnTopA",
+            "index": [25, 15]
+        },
+        {
+            "name": "columnTopB",
+            "index": [25, 16]
+        },
+        {
             "name": "powerup-1",
             "index": [8, 7]
         },
@@ -325,6 +369,16 @@
             "name": "powerup-1",
             "rate": 0.25,
             "frames":["powerup-2", "powerup-1",  "powerup-1"]
+        },
+        {
+            "name": "torchA-1",
+            "rate": 0.25,
+            "frames":["torchA-1", "torchA-2",  "torchA-3"]
+        },
+        {
+            "name": "torchB-1",
+            "rate": 0.25,
+            "frames":["torchB-1", "torchB-2",  "torchB-3"]
         },
         {
             "name": "lava00",
