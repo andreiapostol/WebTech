@@ -23,7 +23,7 @@ Promise.all([
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
 
     let perlinGenerator = new Perlin(Math.random());
-    let retrievedPerlin = perlinGenerator.getNextPerlinCurve(1600);
+    // let retrievedPerlin = perlinGenerator.getNextPerlinCurve(1600);
     const camera = new Camera();
     window.camera = camera;
     mario.pos.set(50, 340);

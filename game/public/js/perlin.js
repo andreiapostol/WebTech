@@ -43,6 +43,7 @@ export default class Perlin {
 
         const canvas2 = document.getElementById('perlin');
         const ctx = canvas2.getContext('2d');
+        ctx.clearRect(0, 0, 1600, 400);
 
         while(x < len){
             
