@@ -22,7 +22,20 @@ Promise.all([
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
 
     let perlinGenerator = new Perlin(Math.random());
-    console.log(perlinGenerator.getPerlin(900));
+
+    let nextInit = (400 - 400 / 5) / 250;
+
+    let retrievedPerlin = perlinGenerator.getPerlin(1600,nextInit);
+    nextInit = (retrievedPerlin[retrievedPerlin.length-1] - 400 / 5) / 250;
+
+    console.log(retrievedPerlin);
+    retrievedPerlin = perlinGenerator.getPerlin(1600, nextInit, 1600);
+    nextInit = (retrievedPerlin[retrievedPerlin.length-1] - 400 / 5) / 250;
+    
+    retrievedPerlin = perlinGenerator.getPerlin(1600, nextInit, 3200);
+    nextInit = (retrievedPerlin[retrievedPerlin.length-1] - 400 / 5) / 250;
+
+    // retrievedPerlin = perlinGenerator.getPerlin(300, nextInit, 600);
     // maxRendered = Math.max(maxRendered)
     const camera = new Camera();
     window.camera = camera;

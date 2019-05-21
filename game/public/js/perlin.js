@@ -18,16 +18,19 @@ export default class Perlin {
         return pa * (1 - f) + pb * f;
     }
 
-    getPerlin(len){
-        let h = 100;
+    getPerlin(len, init, offset){
+        let h = 400;
 
         let x = 0,
         y = h / 2,
-        amp = 100, //amplitude
-        wl = 100, //wavelength
+        amp = 250, //amplitude
+        wl = 375, //wavelength
         fq = 1 / wl, //frequency
         a = this.ownRandom(),
-        b = this.ownRandom();
+        b = init;
+
+        // y = h / 2 + a * amp;
+        // a = (y - h / 2) / amp;
 
         let perlinArr = [];
 
@@ -35,15 +38,25 @@ export default class Perlin {
         const ctx = canvas2.getContext('2d');
 
         while(x < len){
+            
             if(x % wl === 0){
                 a = b;
                 b = this.ownRandom();
-                y = h / 2 + a * amp;
+                y = h/5 + a * amp;
+                ctx.fillStyle = 'red';
+                console.log(y);
             }else{
-                y = h / 2 + this.interpolate(a, b, (x % wl) / wl) * amp;
+                y = h / 5 + this.interpolate(a, b, (x % wl) / wl) * amp;
             }
             perlinArr[x] = y;
-            ctx.fillRect(x, y, 1, 1);
+            console.log(ctx.fillStyle);
+            if(ctx.fillStyle == '#ff0000'){
+                ctx.fillRect(x-1 + (offset ? offset : 0), y-1, 4, 4);
+                ctx.fillStyle = 'black';
+            }else{
+                // ctx.fillStyle = 'black';
+                ctx.fillRect(x + (offset ? offset : 0), y, 1, 1);
+            }
             x += 1;
         }
         return perlinArr;
