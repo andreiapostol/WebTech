@@ -5,6 +5,17 @@ export default class Perlin {
         this.A = 1664525;
         this.C = 1;
         this.Z = Math.floor(this.seed * this.M);
+        this.h = 400;
+        this.amp = 250;
+        this.wl = 800;
+        this.fq = 1 / this.wl;
+        this.init = (this.h - this.h / 4) / this.amp;
+    }
+
+    createNewInit(requiredY){
+        // y = h / 2 + a * amp;
+        // a = (y - h / 2) / amp;
+        this.init = (requiredY - this.h / 4) / this.amp;
     }
 
     ownRandom(){
@@ -18,19 +29,11 @@ export default class Perlin {
         return pa * (1 - f) + pb * f;
     }
 
-    getPerlin(len, init, offset){
-        let h = 400;
-
+    getNextPerlinCurve(len, offset){
         let x = 0,
-        y = h / 2,
-        amp = 250, //amplitude
-        wl = 375, //wavelength
-        fq = 1 / wl, //frequency
+        y = this.h / 2,
         a = this.ownRandom(),
-        b = init;
-
-        // y = h / 2 + a * amp;
-        // a = (y - h / 2) / amp;
+        b = this.init;
 
         let perlinArr = [];
 
@@ -39,26 +42,25 @@ export default class Perlin {
 
         while(x < len){
             
-            if(x % wl === 0){
+            if(x % this.wl === 0){
                 a = b;
                 b = this.ownRandom();
-                y = h/5 + a * amp;
+                y = this.h/4 + a * this.amp;
                 ctx.fillStyle = 'red';
                 console.log(y);
             }else{
-                y = h / 5 + this.interpolate(a, b, (x % wl) / wl) * amp;
+                y = this.h / 4 + this.interpolate(a, b, (x % this.wl) / this.wl) * this.amp;
             }
             perlinArr[x] = y;
-            console.log(ctx.fillStyle);
             if(ctx.fillStyle == '#ff0000'){
                 ctx.fillRect(x-1 + (offset ? offset : 0), y-1, 4, 4);
                 ctx.fillStyle = 'black';
             }else{
-                // ctx.fillStyle = 'black';
-                ctx.fillRect(x + (offset ? offset : 0), y, 1, 1);
+                ctx.fillRect(x + (offset ? offset : 0), y, 2, 2);
             }
             x += 1;
         }
+        this.createNewInit(perlinArr[perlinArr.length-1]);
         return perlinArr;
     }
 }

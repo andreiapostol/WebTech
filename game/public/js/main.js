@@ -23,20 +23,12 @@ Promise.all([
 
     let perlinGenerator = new Perlin(Math.random());
 
-    let nextInit = (400 - 400 / 5) / 250;
-
-    let retrievedPerlin = perlinGenerator.getPerlin(1600,nextInit);
-    nextInit = (retrievedPerlin[retrievedPerlin.length-1] - 400 / 5) / 250;
+    let retrievedPerlin = perlinGenerator.getNextPerlinCurve(1600);
 
     console.log(retrievedPerlin);
-    retrievedPerlin = perlinGenerator.getPerlin(1600, nextInit, 1600);
-    nextInit = (retrievedPerlin[retrievedPerlin.length-1] - 400 / 5) / 250;
-    
-    retrievedPerlin = perlinGenerator.getPerlin(1600, nextInit, 3200);
-    nextInit = (retrievedPerlin[retrievedPerlin.length-1] - 400 / 5) / 250;
 
-    // retrievedPerlin = perlinGenerator.getPerlin(300, nextInit, 600);
-    // maxRendered = Math.max(maxRendered)
+    retrievedPerlin = perlinGenerator.getNextPerlinCurve(1600, 1600);
+    
     const camera = new Camera();
     window.camera = camera;
     mario.pos.set(50, 340);
@@ -45,8 +37,6 @@ Promise.all([
     const initialTiles = level.tileCollider.tiles.matrix;
     level.entities.add(mario);
     let savedEntities = level.entities;
-
-
 
     const timer = new Timer(1/60);
     let cameraAcceleration = 1.25;
