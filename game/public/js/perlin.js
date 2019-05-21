@@ -43,7 +43,7 @@ export default class Perlin {
 
         const canvas2 = document.getElementById('perlin');
         const ctx = canvas2.getContext('2d');
-        ctx.clearRect(0, 0, 1600, 400);
+        ctx.clearRect(0, 0, 164, 100);
 
         while(x < len){
             
@@ -58,10 +58,10 @@ export default class Perlin {
             }
             perlinArr[x] = y;
             if(ctx.fillStyle == '#ff0000'){
-                ctx.fillRect(x-1 + (offset ? offset : 0), y-1, 4, 4);
-                ctx.fillStyle = 'black';
+                ctx.fillRect((x-1 + (offset ? offset : 0))/4, (y-1)/4, 4, 4);
+                ctx.fillStyle = 'white';
             }else{
-                ctx.fillRect(x + (offset ? offset : 0), y, 2, 2);
+                ctx.fillRect((x + (offset ? offset : 0))/4, y/4, 2, 2);
             }
             x += 1;
         }
