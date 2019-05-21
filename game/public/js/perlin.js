@@ -9,7 +9,11 @@ export default class Perlin {
         this.amp = 250;
         this.wl = 800;
         this.fq = 1 / this.wl;
-        this.init = (this.h - this.h / 4) / this.amp;
+        this.createNewInit(this.h - 3 * 16);
+    }
+
+    getWavelength(){
+        return this.wl;
     }
 
     createNewInit(requiredY){
@@ -37,7 +41,7 @@ export default class Perlin {
 
         let perlinArr = [];
 
-        const canvas2 = document.getElementById('cevatest');
+        const canvas2 = document.getElementById('perlin');
         const ctx = canvas2.getContext('2d');
 
         while(x < len){

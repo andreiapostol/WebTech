@@ -22,13 +22,7 @@ Promise.all([
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
 
     let perlinGenerator = new Perlin(Math.random());
-
     let retrievedPerlin = perlinGenerator.getNextPerlinCurve(1600);
-
-    console.log(retrievedPerlin);
-
-    retrievedPerlin = perlinGenerator.getNextPerlinCurve(1600, 1600);
-    
     const camera = new Camera();
     window.camera = camera;
     mario.pos.set(50, 340);
@@ -62,10 +56,9 @@ Promise.all([
         }
         else{
             level.update(deltaTime);
-
         
             if((camera.pos.x + 656) / 16 >= level.tileCollider.tiles.matrix.grid.length){
-                [level, levelSpecification, backgroundSprites] = updateLevel(level, levelSpecification, backgroundSprites, 100);
+                [level, levelSpecification, backgroundSprites] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
                 level.entities = savedEntities;
             }
             

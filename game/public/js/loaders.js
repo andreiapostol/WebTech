@@ -83,9 +83,9 @@ function getLavaAndBlocksBetweenPositions(posAx, posBx, height){
     let allObjects = [];
     if(posAx >= posBx - 4)
         return allObjects;
-    allObjects.push(getNormalBlockBetweenPositions(posAx, posAx+1, 25 - height-1, 25));
+    allObjects.push(getNormalBlockBetweenPositions(posAx, posAx+1, 23 - height-1, 23));
     allObjects.push(...getLavaBetweenPositions(posAx + 2, posBx - 1, 25 - height, 25));
-    allObjects.push(getNormalBlockBetweenPositions(posBx-1, posBx, 25 - height-1, 25));
+    allObjects.push(getNormalBlockBetweenPositions(posBx-1, posBx, 23 - height-1, 23));
     return allObjects;
 }
 
@@ -93,12 +93,27 @@ function getTreeAtPosition(posAx, posAy){
     return {object: "tree", intervals: [[posAx, posAx + 1, posAy, posAy + 1]]};
 }
 
-
 function getRandomBetweenValues(a, b){
     return Math.floor(Math.random()*(b-a+1)+a);
 }
-export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites, tilesNumber){
-    // const newCollisionGrid = 
+
+function getPillarAtHeight(posAx, height){
+    let intervals = [];
+    for(let i = height-1; i >= 2; i-=2){
+        intervals.push([posAx, posAx+1, 24-i, 24-i+1]);
+    }
+    return {object: "box1W2H2", intervals: intervals};
+}
+
+function getHeightsAndPositionsBasedOnNoise(noiseInterval, startIndex, endIndex){
+    let startTile = startIndex / 16;
+}
+
+function insertPillarsBasedOnPositionsAndHeights(posHeights){
+    return [];
+}
+
+export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites, tilesNumber, noise){
     const level = new Level();
     level.entities = oldLevel.entities;
 
@@ -109,26 +124,24 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);
     let newBox = getNormalBlockBetweenPositions(currentEdge, currentEdge + 1, 21, 22);
     let tree = getTreeAtPosition(currentEdge + 10, 17);
+    let pillar = getPillarAtHeight(currentEdge + 14, 8);
 
     const lavaIntervalSize = getRandomBetweenValues(8, 12);
     const lavaIntervalHeight = getRandomBetweenValues(2, 5);
     const lavaBeginning = getRandomBetweenValues(currentEdge, currentEdge + tilesNumber - lavaIntervalSize);
     
     let lavaAndBlocks = getLavaAndBlocksBetweenPositions(lavaBeginning, lavaBeginning + lavaIntervalSize, lavaIntervalHeight);
-    // let lavaAndBlocks = getLavaAndBlocksBetweenPositions(currentEdge, currentEdge + 11, 5);
+
+    const currentNoise = noise.getNextPerlinCurve(1600, 1600);
 
     backgrounds.push(newBackgrounds);
     backgrounds.push(...newFloorsAndUnderground);
     backgrounds.push(tree);
-
+    backgrounds.push(pillar);
     backgrounds.push(...lavaAndBlocks);
     
     let objects = oldLevelSpecification.objects;
-
-    // const collisionGrid = createCollisionGrid(backgrounds, objects);
-    // level.createCollisionGrid(collisionGrid);
-
-    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, ...newFloorsAndUnderground, ...lavaAndBlocks], objects);
+    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, ...newFloorsAndUnderground, ...lavaAndBlocks, pillar], objects);
     oldLevel.updateCollisionGrid(updatedCollisionGrid);
     level.tileCollider = oldLevel.tileCollider;
     
