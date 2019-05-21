@@ -13,7 +13,29 @@ import Perlin from './perlin.js';
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 context.scale(1.5, 1.5);
-const maxRendered = 0;
+
+const perlinCanvas = document.getElementById('perlin');
+const ctx = perlinCanvas.getContext('2d');
+ctx.fillStyle = 'white';
+
+
+function drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter){
+    if(!previousPerlinNoise && !currentPerlinNoise)
+        return;
+    if(iter % 2 === 0)
+        ctx.clearRect(0, 0, 164, 100);
+    let start = camera.pos.x % (16 * generateLength);
+    if((start > 944) && previousPerlinNoise){
+        let i;
+        for(let i = start; i < previousPerlinNoise.length; i+=1)
+            ctx.fillRect((i-start)/4, previousPerlinNoise[i]/4, 2, 2);
+        for(let i = 0; i < currentPerlinNoise.length; i+=1)
+            ctx.fillRect((i+ 1600 - start)/4, currentPerlinNoise[i]/4, 2, 2);
+    }else{
+        for(let i = start; i < currentPerlinNoise.length; i+=1)
+            ctx.fillRect((i-start)/4, currentPerlinNoise[i]/4, 2, 3);
+    }
+};
 
 Promise.all([
     createMario(),
@@ -23,6 +45,9 @@ Promise.all([
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
 
     let perlinGenerator = new Perlin(Math.random());
+    let currentPerlinNoise = undefined;
+    let previousPerlinNoise = undefined;
+    const generateLength = 100;
     // let retrievedPerlin = perlinGenerator.getNextPerlinCurve(1600);
     const camera = new Camera();
     window.camera = camera;
@@ -35,7 +60,7 @@ Promise.all([
 
     const timer = new Timer(1/60);
     let cameraAcceleration = 1.25;
-    let i = 0;
+    var iter = 0;
     mario.gameOver = false;
     const input = setupKeyboard(mario);
     input.listenTo(window);
@@ -59,11 +84,14 @@ Promise.all([
             level.update(deltaTime);
         
             if((camera.pos.x + 656) / 16 >= level.tileCollider.tiles.matrix.grid.length){
-                [level, levelSpecification, backgroundSprites] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
+                if(currentPerlinNoise !== undefined)
+                    previousPerlinNoise = currentPerlinNoise;
+                [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, generateLength, perlinGenerator);
                 level.entities = savedEntities;
             }
             
             // Game Over
+            drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter);
             if(camera.pos.x > mario.pos.x + 20 || mario.traits.some(e => e.NAME === 'dead')){
                 cameraAcceleration = 0;
                 mario.gameOver = true;
@@ -79,12 +107,11 @@ Promise.all([
             else{
                 cameraAcceleration =  Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 2.5);
             }
-            
+
             camera.pos.x += cameraAcceleration;
             level.comp.layers[3] = generateDashboard(font, Math.floor(mario.pos.x / 30) - 1);
             level.comp.draw(context, camera);
-            i++;
-                    
+            iter++;
         }
     }
 

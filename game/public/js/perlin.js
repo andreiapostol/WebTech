@@ -40,29 +40,18 @@ export default class Perlin {
         b = this.init;
 
         let perlinArr = [];
-
-        const canvas2 = document.getElementById('perlin');
-        const ctx = canvas2.getContext('2d');
-        ctx.clearRect(0, 0, 164, 100);
-
+        
         while(x < len){
             
             if(x % this.wl === 0){
                 a = b;
                 b = this.ownRandom();
                 y = this.h/4 + a * this.amp;
-                ctx.fillStyle = 'red';
                 console.log(y);
             }else{
                 y = this.h / 4 + this.interpolate(a, b, (x % this.wl) / this.wl) * this.amp;
             }
             perlinArr[x] = y;
-            if(ctx.fillStyle == '#ff0000'){
-                ctx.fillRect((x-1 + (offset ? offset : 0))/4, (y-1)/4, 4, 4);
-                ctx.fillStyle = 'white';
-            }else{
-                ctx.fillRect((x + (offset ? offset : 0))/4, y/4, 2, 2);
-            }
             x += 1;
         }
         this.createNewInit(perlinArr[perlinArr.length-1]);

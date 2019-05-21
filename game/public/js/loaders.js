@@ -178,7 +178,7 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     let newBackgroundSprites = oldBackgroundSprites;
 
 
-    return [level, newLevelSpecification, newBackgroundSprites];
+    return [level, newLevelSpecification, newBackgroundSprites, currentNoise];
 
 }
 
