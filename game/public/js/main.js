@@ -68,8 +68,8 @@ Promise.all([
                 mario.gameOver = true;
             }
             // Camera threshold right
-            else if(mario.pos.x > camera.pos.x + 500){
-                cameraAcceleration = 4.4;
+            else if(mario.pos.x > camera.pos.x + 350){
+                cameraAcceleration = 3.5;
             }
             else if(mario.pos.x < 150){
                 cameraAcceleration = 0;
