@@ -7,6 +7,7 @@ import {generateDashboard, displayGameOver, resetScore} from './dashboard.js';
 import { Trait } from './Entity.js';
 import Go from './traits/Go.js';
 import Jump from './traits/Jump.js';
+import Perlin from './perlin.js';
 // import {createNextTileMatrices} from '.'
 
 const canvas = document.getElementById('screen');
@@ -19,6 +20,9 @@ Promise.all([
     loadFont()
 ])
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
+
+    let perlinGenerator = new Perlin(Math.random());
+    console.log(perlinGenerator.getPerlin(900));
     // maxRendered = Math.max(maxRendered)
     const camera = new Camera();
     window.camera = camera;
@@ -57,7 +61,7 @@ Promise.all([
             level.update(deltaTime);
 
         
-            if((camera.pos.x + 650) / 16 >= level.tileCollider.tiles.matrix.grid.length){
+            if((camera.pos.x + 656) / 16 >= level.tileCollider.tiles.matrix.grid.length){
                 [level, levelSpecification, backgroundSprites] = updateLevel(level, levelSpecification, backgroundSprites, 100);
                 level.entities = savedEntities;
             }
