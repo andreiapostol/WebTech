@@ -19,8 +19,6 @@ Promise.all([
     loadFont()
 ])
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
-    console.log(mario);
-    console.log(level);
     // maxRendered = Math.max(maxRendered)
     const camera = new Camera();
     window.camera = camera;
@@ -60,9 +58,8 @@ Promise.all([
 
         
             if((camera.pos.x + 650) / 16 >= level.tileCollider.tiles.matrix.grid.length){
-                [level, levelSpecification, backgroundSprites] = updateLevel(level, levelSpecification, backgroundSprites);
+                [level, levelSpecification, backgroundSprites] = updateLevel(level, levelSpecification, backgroundSprites, 100);
                 level.entities = savedEntities;
-                console.log(level);
             }
             
             // Game Over
@@ -79,7 +76,7 @@ Promise.all([
             }
             // Base case
             else{
-                cameraAcceleration =    Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 3.5);
+                cameraAcceleration =  Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 2.5);
             }
             
             camera.pos.x += cameraAcceleration;

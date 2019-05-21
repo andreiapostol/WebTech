@@ -3,6 +3,7 @@ import SpriteSheet from './SpriteSheet.js';
 import {createBackgroundLayer, createSpriteLayer } from './layers.js';
 import {generateAnimationFromFrames} from './animation.js';
 import {Matrix} from './math.js';
+import Perlin from './perlin.js';
 
 export function loadImage(url){
     return new Promise(resolve => {
@@ -28,7 +29,6 @@ export function loadFont(){
 function createCollisionGrid(backgrounds, objects){
     const layer = new Matrix();
     const createdTiles = createTiles(backgrounds, objects);
-    console.log(createdTiles);
     for(const {name, x, y} of createdTiles){
         layer.set(x, y, {
             name: name
@@ -55,6 +55,12 @@ function getFloorBetweenPositions(posAx, posBx, posAy, posBy){
     return {tileA: "groundA", tileB: "groundB", intervals: [[posAx, posBx, posAy, posBy]]};
 }
 
+function getFloorAndUndergroundBetweenPositions(posAx, posBx, posAy, posBy){
+    return [{tileA: "groundA", tileB: "groundB", intervals: [[posAx, posBx, posAy, posBy]]},
+    {tile: "underground", intervals: [[posAx, posBx, posBy, posBy+1]]}];
+    // return {tileA: "groundA", tileB: "groundB", intervals: [[posAx, posBx, posAy, posBy]]};
+}
+
 function getNormalBlockBetweenPositions(posAx, posBx, posAy, posBy){ 
     let allIntervals = [];
     for(let i = posAy; i < posBy; i+=2){
@@ -77,9 +83,9 @@ function getLavaAndBlocksBetweenPositions(posAx, posBx, height){
     let allObjects = [];
     if(posAx >= posBx - 4)
         return allObjects;
-    allObjects.push(getNormalBlockBetweenPositions(posAx, posAx+1, 25 - height, 25));
+    allObjects.push(getNormalBlockBetweenPositions(posAx, posAx+1, 25 - height-1, 25));
     allObjects.push(...getLavaBetweenPositions(posAx + 2, posBx - 1, 25 - height, 25));
-    allObjects.push(getNormalBlockBetweenPositions(posBx-1, posBx, 25 - height, 25));
+    allObjects.push(getNormalBlockBetweenPositions(posBx-1, posBx, 25 - height-1, 25));
     return allObjects;
 }
 
@@ -91,7 +97,7 @@ function getTreeAtPosition(posAx, posAy){
 function getRandomBetweenValues(a, b){
     return Math.floor(Math.random()*(b-a+1)+a);
 }
-export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites){
+export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites, tilesNumber){
     // const newCollisionGrid = 
     const level = new Level();
     level.entities = oldLevel.entities;
@@ -99,22 +105,20 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     const currentEdge = oldLevel.tileCollider.tiles.matrix.grid.length;
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
-    let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + 100, 0, 25);
-    let newFloors = getFloorBetweenPositions(currentEdge, currentEdge + 100, 23, 24);
+    let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 0, 25);
+    let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);
     let newBox = getNormalBlockBetweenPositions(currentEdge, currentEdge + 1, 21, 22);
     let tree = getTreeAtPosition(currentEdge + 10, 17);
 
     const lavaIntervalSize = getRandomBetweenValues(8, 12);
     const lavaIntervalHeight = getRandomBetweenValues(2, 5);
-    const lavaBeginning = getRandomBetweenValues(currentEdge, currentEdge + 100 - lavaIntervalSize);
-    console.log(lavaIntervalSize, lavaIntervalHeight, lavaBeginning);
+    const lavaBeginning = getRandomBetweenValues(currentEdge, currentEdge + tilesNumber - lavaIntervalSize);
     
     let lavaAndBlocks = getLavaAndBlocksBetweenPositions(lavaBeginning, lavaBeginning + lavaIntervalSize, lavaIntervalHeight);
     // let lavaAndBlocks = getLavaAndBlocksBetweenPositions(currentEdge, currentEdge + 11, 5);
 
     backgrounds.push(newBackgrounds);
-    backgrounds.push(newFloors);
-    backgrounds.push(newBox);
+    backgrounds.push(...newFloorsAndUnderground);
     backgrounds.push(tree);
 
     backgrounds.push(...lavaAndBlocks);
@@ -124,11 +128,8 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     // const collisionGrid = createCollisionGrid(backgrounds, objects);
     // level.createCollisionGrid(collisionGrid);
 
-    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, newFloors, newBox, ...lavaAndBlocks], objects);
-    console.log(updatedCollisionGrid);
-    console.log(oldLevel.tileCollider);
+    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, ...newFloorsAndUnderground, ...lavaAndBlocks], objects);
     oldLevel.updateCollisionGrid(updatedCollisionGrid);
-    console.log(oldLevel.tileCollider);
     level.tileCollider = oldLevel.tileCollider;
     
     oldLevelSpecification.layers.forEach(layer => {
@@ -243,19 +244,15 @@ export function loadLevel(name){
         loadSpriteSheet(levelSpec.spriteSheet)
     ])).then(([levelSpecification, backgroundSprites]) => {
         const level = new Level();
-        console.log(levelSpecification.layers[0].backgrounds, levelSpecification.objects);
         const collisionGrid = createCollisionGrid(levelSpecification.layers[0].backgrounds, levelSpecification.objects);
         level.createCollisionGrid(collisionGrid);
         levelSpecification.layers.forEach(layer => {
-            console.log(layer.backgrounds, levelSpecification.objects);
             const backgroundGrid = createBackgroundGrid(layer.backgrounds, levelSpecification.objects);
             const backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundSprites);
             level.comp.layers.push(backgroundLayer);
         });
-        console.log('Before', level.entities);
         const spriteLayer = createSpriteLayer(level.entities);
         level.comp.layers.push(spriteLayer);
-        console.log('After', level.entities);
         return [level, levelSpecification, backgroundSprites];
     });
 }

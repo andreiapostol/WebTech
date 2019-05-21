@@ -11,7 +11,6 @@ export default class TileResolver {
 
     setTiles(valoare){
         this.matrix = copyMatrixValues(valoare);
-        console.log(this.matrix);
     }
 
     toIndex(pos) {
