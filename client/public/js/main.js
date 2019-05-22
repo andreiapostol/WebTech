@@ -20,66 +20,21 @@ ctx.fillStyle = 'white';
 
 
 function drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter){
-    if(!previousPerlinNoise && !currentPerlinNoise)
-        return;
-    // if(camera.pos.x < (1600 + 992))
-    //     return;
-    // if(iter % 2 === 0)
-    ctx.clearRect(0, 0, 124, 75);
-    // ctx.fillRect(5,5, 10, 10 );
-
-    // pozitia de start a camerei
-    let start = camera.pos.x % (16 * generateLength);
-
-    for(let i = 0; i < 124; i++){
-        if(start > (1600-992) && previousPerlinNoise){
-            if(start + i * 8 < 1600){
-                ctx.fillRect(i, previousPerlinNoise[start + i * 8] / 8, 2, 2);
-            }else{
-                ctx.fillRect(i, currentPerlinNoise[start + i * 8 - 1600]/ 8, 2, 2);
-            }
-        }else{
-            ctx.fillRect(i, currentPerlinNoise[start + i * 8]/8, 2, 2);
-        }
-    }
-    
-    // if(start > (1600 - 992) && previousPerlinNoise){
-    //     // console.log('prev');
-    //     // inseamna ca s-a generat deja noul nivel, in currentPerlinNoise
-    //     // deci, de acum, cel putin un pixel trebuie sa fie
-    //     // cat mai e pana la capat: (1600 - start) / 4 array-ul meu are size [124, 75]
-    //     for(let i = start; i < 1600; i += 8){
-    //         ctx.fillRect(Math.floor((i-start) * 0.125), previousPerlinNoise[i]/8, 2, 2);
-    //     }
-    //     // 1584 0, 1, 2 => (1600-1584) / 8p[0]
-    //     for(let i = 1600; (i-start) / 8 < 124; i+=8){
-    //         ctx.fillRect(Math.floor((i-start) * 0.125), currentPerlinNoise[i-1600]/8, 2, 2)
-    //     }
-    // }else{
-    //     // console.log('current');
-    //     for(let i = start; (i-start)/8 < 124; i+= 8){
-    //         ctx.fillRect(Math.floor((i-start) * 0.125), currentPerlinNoise[i]/8, 2, 2);
-    //     }
-    // }
-
-    // console.log(start);
-    // if((start + 4 * 164 < 1600) && previousPerlinNoise){
-    //     console.log('prev');
-    //     let i;
-    //     // start = 700
-    //     // 0, n(700)
-    //     // 1, n(704)
-    //     // ...
-    //     // 1600 - 992 = 900 / 4
-    //     for(let i = start; i < 1600; i+=4)
-    //         ctx.fillRect((i-start)/4, previousPerlinNoise[i]/4, 2, 2);
-    //     for(let i = 0; (i+1600-start) < 164; i+=4)
-    //         ctx.fillRect((i+ 1600 - start)/4, currentPerlinNoise[i]/4, 2, 2);
-    // }else{
-    //     console.log('current');
-    //     for(let i = start; (i-start)/4 < 164; i+=4)
-    //         ctx.fillRect((i-start)/4, currentPerlinNoise[i]/4, 2, 3);
-    // }
+	    if(!previousPerlinNoise && !currentPerlinNoise)
+	        return;
+	    if(iter % 2 === 0)
+	        ctx.clearRect(0, 0, 164, 100);
+	    let start = camera.pos.x % (16 * generateLength);
+	    if((start > 944) && previousPerlinNoise){
+            let i;
+	        for(i = start; i < previousPerlinNoise.length && i < start + 564; i+=4)
+	            ctx.fillRect((i-start)/4, previousPerlinNoise[i]/4, 3, 3);
+	        for(let j = 0; j/4 + (i - start)/4 < 564; j+=4)
+	            ctx.fillRect(j/4 + (i - start)/4, currentPerlinNoise[j]/4, 3, 3);
+	    }else{
+	        for(let i = start; i < start + 564; i+=4)
+	            ctx.fillRect((i-start)/4, currentPerlinNoise[i]/4, 3, 3);
+	    }
 };
 
 Promise.all([
@@ -128,14 +83,13 @@ Promise.all([
         else{
             level.update(deltaTime);
         
-            if((camera.pos.x + 992) / 16 >= level.tileCollider.tiles.matrix.grid.length){
+            if((camera.pos.x + 656) / 16 >= level.tileCollider.tiles.matrix.grid.length){
                 previousPerlinNoise = currentPerlinNoise;
                 [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, generateLength, perlinGenerator);
                 level.entities = savedEntities;
             }
             
             // Game Over
-            drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter);
             if(camera.pos.x > mario.pos.x + 20 || mario.traits.some(e => e.NAME === 'dead')){
                 cameraAcceleration = 0;
                 mario.gameOver = true;
@@ -151,11 +105,11 @@ Promise.all([
             else{
                 cameraAcceleration =  Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 2);
             }
-
             camera.pos.x += cameraAcceleration;
             level.comp.layers[3] = generateDashboard(font, Math.floor(mario.pos.x / 30) - 1);
             level.comp.draw(context, camera);
             iter++;
+            drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter);
         }
     }
 
