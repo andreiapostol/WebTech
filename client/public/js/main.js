@@ -12,6 +12,7 @@ import Perlin from './perlin.js';
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
+context.scale(1.5, 1.5);
 
 const perlinCanvas = document.getElementById('perlin');
 const ctx = perlinCanvas.getContext('2d');

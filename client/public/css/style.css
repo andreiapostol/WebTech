@@ -1,5 +1,7 @@
 body{
-    background-color: #111;
+    background-color: #121212;
+    padding: 0px;
+    margin: 0px;
 }
 
 #containerLanding{
@@ -7,7 +9,7 @@ body{
     margin: 0 auto;
     padding: 2.5em 0em;
     color: #fefefe;
-    max-width: 1024px;
+    max-width: 984px;
 }
 
 #containerLanding h1{
@@ -26,39 +28,44 @@ body{
     font-size: 1.15em;
     line-height: 1.5em;
 }
-#containerLanding:nth-child(1){
-    margin-top: 2em;
+#containerLanding{
+    margin-top: 4em;
 }
 #containerLanding a{
     text-decoration-skip: ink;
     line-height: 1.5em;
 }
 
-#containerLanding nav{
-    padding: 1.5em 0;
-    background-color: #111;
+nav{
+    padding: 2em 0;
+    background-color: #010101;
     position:fixed;
     top: 0px;
     width: 100%;
 }
-#containerLanding b{
+nav #containerNav{
+    max-width: 984px;
+    margin: 0 auto;
+    disply: block;
+}
+nav b{
     padding: 0 0.5em;
 }
-#containerLanding nav, #containerLanding nav a{
+nav, nav a{
     font-family: "Press Start 2P", cursive;
     font-size: 1.15em;
     color: #fefefe;
     text-transform: uppercase;
 }
-#containerLanding nav a{
+nav a{
     text-decoration: none; 
     border-bottom: 3px solid #fefefe; 
     transition: 0.25s ease-in-out all;
 }
-#containerLanding nav a:hover{
+nav a:hover{
     border-bottom: 3px solid #f24a02; 
 }
-#containerLanding nav a.active{
+nav a.active{
     text-decoration: none; 
     border-bottom: 3px solid #f24a02; 
     color: #f24a02;
@@ -78,6 +85,6 @@ body{
 #containerGame{
     display: block;
     margin: 0 auto;
-    width: 656px;
+    width: 984px;
     border: 2px solid #fefefe;
 }
