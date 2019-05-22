@@ -7,12 +7,13 @@ export default class Jump extends Trait {
         this.readyToJump = false;
         this.duration = 0.24;
         this.engageTime = 0;
-        this.height = 0;;
+        this.height = 0;
         this.velocity = 350;
+        this.godJumps = 0;
     }
 
     start() {
-        if(this.readyToJump){
+        if(this.readyToJump || (this.godJumps > 0)){
             this.engageTime = this.duration;
         }
     }
@@ -22,7 +23,7 @@ export default class Jump extends Trait {
         this.height = 0;
     }
 
-    obstruct(entity, side){
+    obstruct(_, side){
         if(side === 'bottom'){
             this.readyToJump = true;
         }
@@ -30,11 +31,14 @@ export default class Jump extends Trait {
 
 
     update(entity, deltaTime) {
-        if (this.engageTime > 0) {
+        if (this.engageTime > 0 || (this.godJumps > 0)) {
             entity.vel.y = -this.velocity;
             this.height -= entity.vel.y;
             this.engageTime -= deltaTime;
         }
-        this.readyToJump = false;
+        if(!(this.godJumps > 0))
+            this.readyToJump = false;
+
+        this.godJumps--;
     }
 }

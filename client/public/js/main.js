@@ -43,7 +43,7 @@ Promise.all([
     loadFont()
 ])
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
-
+    console.log(level);
     let perlinGenerator = new Perlin(Math.random());
     let currentPerlinNoise = undefined;
     let previousPerlinNoise = undefined;
@@ -105,7 +105,14 @@ Promise.all([
             else{
                 cameraAcceleration =  Math.min(Math.max(Math.floor(camera.pos.x / 500),1.25), 2);
             }
-            camera.pos.x += cameraAcceleration;
+            camera.pos.x = (camera.pos.x + cameraAcceleration);
+            // if(camera.pos.x > 1600){
+            //     camera.pos.x -= 1600;
+            //     level.entities.forEach(entity=>{
+            //         entity.pos.x -= 1600;
+            //     })
+            // }
+            // console.log(camera.pos.x);
             level.comp.layers[3] = generateDashboard(font, Math.floor(mario.pos.x / 30) - 1);
             level.comp.draw(context, camera);
             iter++;

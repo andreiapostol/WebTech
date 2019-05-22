@@ -3,8 +3,8 @@ import TileResolver from "./TileResolver.js";
 export function createBackgroundLayer(level, tiles, sprites) {
     const resolver = new TileResolver(tiles);
     const buffer = document.createElement('canvas');
-    buffer.width = 4096;
-    buffer.height = 480;
+    buffer.width = 700;
+    buffer.height = 400;
 
     const context = buffer.getContext('2d');
 

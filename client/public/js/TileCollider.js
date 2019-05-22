@@ -30,9 +30,10 @@ export default class TileCollider {
             }
 
             if (match.tile.name.includes('lava')) {
-                entity.traits.push(new Trait('dead'));
+                // entity.traits.push(new Trait('dead'));
                 return;
             }
+
             
 
             if (entity.vel.x > 0) {
@@ -63,15 +64,27 @@ export default class TileCollider {
             entity.pos.x, entity.pos.x + entity.size.x,
             y, y);
         
-        // console.log('Matches are ', matches, 'entity is', entity, 'tiles are', this.tiles);
-
         matches.forEach(match => {
             if (match.tile.name === 'background') {
                 return;
             }
 
             if (match.tile.name.includes('lava')) {
-                entity.traits.push(new Trait('dead'));
+                // entity.traits.push(new Trait('dead'));
+                entity.traits.forEach(trait=>{
+                    if(trait.NAME === 'jump'){
+                        trait.godJumps = 10;
+                    };
+                });
+                return;
+            }
+
+            if (match.tile.name.includes('jumpPowerup')) {
+                entity.traits.forEach(trait=>{
+                    if(trait.NAME === 'jump'){
+                        trait.godJumps = 10;
+                    };
+                });
                 return;
             }
 

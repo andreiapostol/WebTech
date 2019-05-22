@@ -164,7 +164,7 @@ function getPillarsBasedOnPositionsAndHeights(posHeights){
     pillars.push({tileA: "lava00", tileB: "lava01", intervals:lavaUpperIntervals});
     pillars.push({tileA: "lava10", tileB: "lava11", intervals:lavaMediumIntervals});
     pillars.push({object: "lavaBottom", intervals:lavaBottomIntervals});
-    
+
     return pillars;
 }
 
@@ -182,16 +182,19 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     const pillars = getPillarsBasedOnPositionsAndHeights(posHeights, tilesNumber);
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
+    console.log(oldLevelSpecification);
+    console.log(oldBackgroundSprites);
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 0, 25);
     let colTopBackground = getColumnTopBackgroundBetweenPositions(currentEdge, currentEdge+tilesNumber);
     let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);
-    // let column = getColumnAtHeight(currentEdge, 10);  
 
     allNewBackgrounds.push(newBackgrounds, ...newFloorsAndUnderground, ...pillars)
     backgrounds.push(...allNewBackgrounds, colTopBackground);
     
     let objects = oldLevelSpecification.objects;
     const updatedCollisionGrid = createCollisionGrid([...allNewBackgrounds], objects);
+    console.log(oldLevel.tileCollider.tiles.matrix.grid);
+    console.log(updatedCollisionGrid);
     oldLevel.updateCollisionGrid(updatedCollisionGrid);
     level.tileCollider = oldLevel.tileCollider;
     
@@ -208,9 +211,11 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     let newLevelSpecification = {};
     newLevelSpecification.layers = oldLevelSpecification.layers;
     newLevelSpecification.objects = objects;
-    newLevelSpecification.backgrounds = backgrounds;
+    newLevelSpecification.spriteSheet = oldLevelSpecification.spriteSheet;
 
     let newBackgroundSprites = oldBackgroundSprites;
+
+    console.log(level);
 
     return [level, newLevelSpecification, newBackgroundSprites, currentNoise];
 
