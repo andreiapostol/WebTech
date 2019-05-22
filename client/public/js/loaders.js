@@ -109,7 +109,7 @@ function getHeightsAndPositionsBasedOnNoise(noiseInterval, startIndex, endIndex,
     let heightPos = [];
     let startTile = startIndex / 16;
     let endTile = endIndex / 16;
-    for(let i = startTile; i < endTile; i+=2){
+    for(let i = startTile; i < endTile-1; i+=getRandomBetweenValues(5,9)){
         const currentHeight = 25 - noiseInterval[i*16] / 16;
         heightPos.push({xPosition:i+edgeOffset, height:currentHeight});
     }
@@ -153,10 +153,7 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
         level.comp.layers.push(backgroundLayer);
     });
 
-
-    console.log('Layers backs', oldLevelSpecification.layers[0].backgrounds, oldLevelSpecification.layers[1].backgrounds);
-    console.log('Backgrounds, new backs', backgrounds, allNewBackgrounds);
-    backgrounds = allNewBackgrounds;
+    // backgrounds = allNewBackgrounds;
     const spriteLayer = createSpriteLayer(level.entities);
     level.comp.layers.push(spriteLayer);
 
@@ -165,7 +162,9 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     newLevelSpecification.objects = objects;
     newLevelSpecification.backgrounds = backgrounds;
 
-    return [level, newLevelSpecification, oldBackgroundSprites, currentNoise];
+    let newBackgroundSprites = oldBackgroundSprites;
+
+    return [level, newLevelSpecification, newBackgroundSprites, currentNoise];
 
 }
 
