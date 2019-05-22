@@ -21,11 +21,48 @@ body{
     font-size: 1.15em;
     line-height: 1.5em;
 }
+#containerLanding p{
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.15em;
+    line-height: 1.5em;
+}
+#containerLanding:nth-child(1){
+    margin-top: 2em;
+}
 #containerLanding a{
     text-decoration-skip: ink;
     line-height: 1.5em;
 }
 
+#containerLanding nav{
+    padding: 1.5em 0;
+    background-color: #111;
+    position:fixed;
+    top: 0px;
+    width: 100%;
+}
+#containerLanding b{
+    padding: 0 0.5em;
+}
+#containerLanding nav, #containerLanding nav a{
+    font-family: "Press Start 2P", cursive;
+    font-size: 1.15em;
+    color: #fefefe;
+    text-transform: uppercase;
+}
+#containerLanding nav a{
+    text-decoration: none; 
+    border-bottom: 3px solid #fefefe; 
+    transition: 0.25s ease-in-out all;
+}
+#containerLanding nav a:hover{
+    border-bottom: 3px solid #f24a02; 
+}
+#containerLanding nav a.active{
+    text-decoration: none; 
+    border-bottom: 3px solid #f24a02; 
+    color: #f24a02;
+}
 
 /* Styling for the game */
 #containerGame #screen{
