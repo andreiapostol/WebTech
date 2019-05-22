@@ -47,7 +47,6 @@ export default class Perlin {
                 a = b;
                 b = this.ownRandom();
                 y = this.h/4 + a * this.amp;
-                console.log(y);
             }else{
                 y = this.h / 4 + this.interpolate(a, b, (x % this.wl) / this.wl) * this.amp;
             }

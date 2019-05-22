@@ -99,7 +99,6 @@ function getRandomBetweenValues(a, b){
 
 function getPillarAtHeight(posAx, height){
     let intervals = [];
-    console.log(posAx, height);
     for(let i = height-1; i >= 2; i-=2){
         intervals.push([posAx, posAx+1, 24-i, 24-i+1]);
     }
@@ -128,6 +127,7 @@ function getPillarsBasedOnPositionsAndHeights(posHeights){
 export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites, tilesNumber, noise){
     const level = new Level();
     const currentNoise = noise.getNextPerlinCurve(1600);
+    const allNewBackgrounds = [];
 
     level.entities = oldLevel.entities;
     const currentEdge = oldLevel.tileCollider.tiles.matrix.grid.length;
@@ -135,30 +135,15 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     const posHeights = getHeightsAndPositionsBasedOnNoise(currentNoise, 0, 1600, currentEdge);
     const pillars = getPillarsBasedOnPositionsAndHeights(posHeights, tilesNumber);
 
-    console.log(posHeights);
-
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 0, 25);
-    let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);
-    // let tree = getTreeAtPosition(currentEdge + 10, 17);
-    // let pillar = getPillarAtHeight(currentEdge + 14, 8);
+    let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);    
 
-    const lavaIntervalSize = getRandomBetweenValues(8, 12);
-    const lavaIntervalHeight = getRandomBetweenValues(2, 5);
-    const lavaBeginning = getRandomBetweenValues(currentEdge, currentEdge + tilesNumber - lavaIntervalSize);
-    
-    // let lavaAndBlocks = getLavaAndBlocksBetweenPositions(lavaBeginning, lavaBeginning + lavaIntervalSize, lavaIntervalHeight);
-
-
-    backgrounds.push(newBackgrounds);
-    backgrounds.push(...newFloorsAndUnderground);
-    // backgrounds.push(tree);
-    // backgrounds.push(pillar);
-    // backgrounds.push(...lavaAndBlocks);
-    backgrounds.push(...pillars);
+    allNewBackgrounds.push(newBackgrounds, ...newFloorsAndUnderground, ...pillars)
+    backgrounds.push(...allNewBackgrounds);
     
     let objects = oldLevelSpecification.objects;
-    const updatedCollisionGrid = createCollisionGrid([newBackgrounds, ...newFloorsAndUnderground, ...pillars], objects);
+    const updatedCollisionGrid = createCollisionGrid([...allNewBackgrounds], objects);
     oldLevel.updateCollisionGrid(updatedCollisionGrid);
     level.tileCollider = oldLevel.tileCollider;
     
@@ -167,6 +152,11 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
         const backgroundLayer = createBackgroundLayer(level, backgroundGrid, oldBackgroundSprites);
         level.comp.layers.push(backgroundLayer);
     });
+
+
+    console.log('Layers backs', oldLevelSpecification.layers[0].backgrounds, oldLevelSpecification.layers[1].backgrounds);
+    console.log('Backgrounds, new backs', backgrounds, allNewBackgrounds);
+    backgrounds = allNewBackgrounds;
     const spriteLayer = createSpriteLayer(level.entities);
     level.comp.layers.push(spriteLayer);
 
@@ -175,17 +165,12 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     newLevelSpecification.objects = objects;
     newLevelSpecification.backgrounds = backgrounds;
 
-    let newBackgroundSprites = oldBackgroundSprites;
-
-
-    return [level, newLevelSpecification, newBackgroundSprites, currentNoise];
+    return [level, newLevelSpecification, oldBackgroundSprites, currentNoise];
 
 }
 
 function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
     let tiles = [];
-    // console.log('Backgrounds', backgrounds);
-    // console.log('Objects', objects);
     backgrounds.forEach(background => {
         if(background.object){
             background.intervals.forEach(([x1, x2, y1, y2]) => {
@@ -221,11 +206,22 @@ function createTiles(backgrounds, objects, offsetX = 0, offsetY = 0){
             })
         }
     });
-    // tiles.push({x: 2, y: 2, name: 'lava01'});
-    // tiles.push({x: 2, y: 3, name: 'lava00'});
-    // console.log(tiles);
     return tiles;
 }
+
+    // let tree = getTreeAtPosition(currentEdge + 10, 17);
+    // let pillar = getPillarAtHeight(currentEdge + 14, 8);
+
+    // let lavaAndBlocks = getLavaAndBlocksBetweenPositions(lavaBeginning, lavaBeginning + lavaIntervalSize, lavaIntervalHeight);
+
+
+    // backgrounds.push(tree);
+    // backgrounds.push(pillar);
+    // backgrounds.push(...lavaAndBlocks);
+    // const lavaIntervalSize = getRandomBetweenValues(8, 12);
+    // const lavaIntervalHeight = getRandomBetweenValues(2, 5);
+    // const lavaBeginning = getRandomBetweenValues(currentEdge, currentEdge + tilesNumber - lavaIntervalSize);
+
 
 function loadJSON(url) {
     return fetch(url)

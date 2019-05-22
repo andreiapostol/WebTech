@@ -20,12 +20,12 @@ ctx.fillStyle = 'white';
 
 
 function drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter){
-    if(!previousPerlinNoise && !currentPerlinNoise)
+    if(!previousPerlinNoise || !currentPerlinNoise)
         return;
     if(iter % 2 === 0)
         ctx.clearRect(0, 0, 164, 100);
     let start = camera.pos.x % (16 * generateLength);
-    if((start > 944) && previousPerlinNoise){
+    if((start > (1600 - 656)) && previousPerlinNoise){
         let i;
         for(let i = start; i < previousPerlinNoise.length; i+=1)
             ctx.fillRect((i-start)/4, previousPerlinNoise[i]/4, 2, 2);
