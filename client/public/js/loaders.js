@@ -105,24 +105,55 @@ function getPillarAtHeight(posAx, height){
     return {object: "box1W2H2", intervals: intervals};
 }
 
+function getColumnAtHeight(posAx, height){
+    let allCols = [];
+    allCols.push({tile: "columnForeground0", intervals: [[posAx, posAx+1, 26-height, 27-height]]});
+    allCols.push({tile: "columnForeground1", intervals: [[posAx, posAx+1, 27-height, 28-height]]});
+    allCols.push({tile: "columnForeground2", intervals: [[posAx, posAx+1, 28-height, 22]]});
+    allCols.push({tile: "columnForeground3", intervals: [[posAx, posAx+1, 22, 23]]});
+    return allCols;
+}
+
 function getHeightsAndPositionsBasedOnNoise(noiseInterval, startIndex, endIndex, edgeOffset){
     let heightPos = [];
     let startTile = startIndex / 16;
     let endTile = endIndex / 16;
     for(let i = startTile; i < endTile-1; i+=getRandomBetweenValues(5,9)){
         const currentHeight = 25 - noiseInterval[i*16] / 16;
-        heightPos.push({xPosition:i+edgeOffset, height:currentHeight});
+        heightPos.push({xPosition:i+edgeOffset, height:Math.floor(currentHeight)});
     }
     return heightPos;
 }
 
+function getColumnTopBackgroundBetweenPositions(posAx, posBx){
+    return {object: "columnTop", intervals:[[posAx, posBx, 3, 4]]};
+}
+
 function getPillarsBasedOnPositionsAndHeights(posHeights){
     let pillars = [];
-    for(let i = 0; i < posHeights.length; i++){
+    let lavaUpperIntervals = [];
+    let lavaMediumIntervals = [];
+    let lavaBottomIntervals = [];
+
+    for(let i = 0; i < posHeights.length-1; i++){
         pillars.push(getPillarAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height)));
+        let lavaHeight = posHeights[i].height < posHeights[i+1].height ? posHeights[i].height : posHeights[i+1].height;
+        lavaUpperIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 26-lavaHeight, 27-lavaHeight]);
+        lavaMediumIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 27-lavaHeight, 28-lavaHeight]);
+        lavaBottomIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 28-lavaHeight, 25]);
     }
+
+    pillars.push(getPillarAtHeight(posHeights[posHeights.length-1].xPosition, Math.floor(posHeights[posHeights.length-1].height)));
+
+    pillars.push({tileA: "lava00", tileB: "lava01", intervals:lavaUpperIntervals});
+    pillars.push({tileA: "lava10", tileB: "lava11", intervals:lavaMediumIntervals});
+    pillars.push({object: "lavaBottom", intervals:lavaBottomIntervals});
+
+    console.log(pillars);
     return pillars;
 }
+
+
 
 export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites, tilesNumber, noise){
     const level = new Level();
@@ -137,9 +168,11 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 0, 25);
-    let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);    
+    let colTopBackground = getColumnTopBackgroundBetweenPositions(currentEdge, currentEdge+tilesNumber);
+    let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);
+    // let column = getColumnAtHeight(currentEdge, 10);  
 
-    allNewBackgrounds.push(newBackgrounds, ...newFloorsAndUnderground, ...pillars)
+    allNewBackgrounds.push(newBackgrounds, colTopBackground, ...newFloorsAndUnderground, ...pillars)
     backgrounds.push(...allNewBackgrounds);
     
     let objects = oldLevelSpecification.objects;
