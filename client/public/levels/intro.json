@@ -138,15 +138,6 @@
                     ]
                 },
                 {
-                    "object": "torch",
-                    "intervals": [
-                        [
-                            10, 11,
-                            21, 22
-                        ]
-                    ]
-                },
-                {
                     "object": "columnH18",
                     "intervals": [
                         [
@@ -170,6 +161,82 @@
     ],
 
     "objects": {
+        "columnForeground":{
+            "backgrounds":[
+                {
+                    "tile": "columnForeground0",
+                    "intervals":[
+                        [
+                            0, 1,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tile": "columnForeground1",
+                    "intervals":[
+                        [
+                            0, 1,
+                            1, 2
+                        ]
+                    ]
+                },
+                {
+                    "tile": "columnForeground2",
+                    "intervals":[
+                        [
+                            0, 1,
+                            2, 3
+                        ]
+                    ]
+                },
+                {
+                    "tile": "columnForeground2",
+                    "intervals":[
+                        [
+                            0, 1,
+                            3, 4
+                        ]
+                    ]
+                },
+                {
+                    "tile": "columnForeground2",
+                    "intervals":[
+                        [
+                            0, 1,
+                            4, 5
+                        ]
+                    ]
+                },
+                {
+                    "tile": "columnForeground2",
+                    "intervals":[
+                        [
+                            0, 1,
+                            5, 6
+                        ]
+                    ]
+                },
+                {
+                    "tile": "columnForeground2",
+                    "intervals":[
+                        [
+                            0, 1,
+                            6, 7
+                        ]
+                    ]
+                },
+                {
+                    "tile": "columnForeground3",
+                    "intervals":[
+                        [
+                            0, 1,
+                            7, 8
+                        ]
+                    ]
+                }
+            ]
+        },
         "columnTop":{
             "backgrounds": [
                 {

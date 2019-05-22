@@ -5,6 +5,22 @@
 
     "tiles": [
         {
+            "name": "columnForeground0",
+            "index": [0, 10]
+        },
+        {
+            "name": "columnForeground1",
+            "index": [0, 11]
+        },
+        {
+            "name": "columnForeground2",
+            "index": [0, 12]
+        },
+        {
+            "name": "columnForeground3",
+            "index": [0, 13]
+        },
+        {
             "name": "torchA-1",
             "index": [10, 8]
         },

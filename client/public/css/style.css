@@ -6,7 +6,6 @@ body{
     display: block;
     margin: 0 auto;
     padding: 2.5em 0em;
-    line-height: 1.5em;
     color: #fefefe;
     max-width: 1024px;
 }
@@ -20,26 +19,28 @@ body{
 #containerLanding p{
     font-family: "Open Sans", sans-serif;
     font-size: 1.15em;
+    line-height: 1.5em;
 }
 #containerLanding a{
     text-decoration-skip: ink;
+    line-height: 1.5em;
 }
 
 
 /* Styling for the game */
-#container #screen{
-    display: block;
+#containerGame #screen{
     z-index: 1;
     margin: 0 auto;
     padding: 0;
 }
-#container #perlin{
-    position:absolute;
+#containerGame #perlin{
+    margin-top: 0px;
+    position: absolute;
     z-index: 9999;
-    top: 0px;
 }
-#container{
+#containerGame{
     display: block;
     margin: 0 auto;
-    width: 992px;
+    width: 656px;
+    border: 2px solid #fefefe;
 }
