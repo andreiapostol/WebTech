@@ -109,7 +109,7 @@ Promise.all([
             level.comp.layers[3] = generateDashboard(font, Math.floor(mario.pos.x / 30) - 1);
             level.comp.draw(context, camera);
             iter++;
-            drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter);
+            // drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter);
         }
     }
 
