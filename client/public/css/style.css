@@ -4,36 +4,11 @@ body{
     margin: 0px;
 }
 
-.container{
-    display: block;
-    margin: 0 auto;
-    padding: 2.5em 0em;
-    color: #fefefe;
-    max-width: 984px;
-}
-
-.container h1{
-    font-family: "Press Start 2P", cursive;
-    font-size: 2.25em;
-    line-height: 1.25em;
-    font-weight: normal;
-}
-.container p{
-    font-family: "Open Sans", sans-serif;
-    font-size: 1.15em;
-    line-height: 1.5em;
-}
-.container p{
-    font-family: "Open Sans", sans-serif;
-    font-size: 1.15em;
-    line-height: 1.5em;
-}
-.container{
-    margin-top: 1.25em;
-}
-.container a{
-    text-decoration-skip: ink;
-    line-height: 1.5em;
+#overlay{
+    width:100%;
+    height:100vh;
+    background-color:#111;
+    display: none;
 }
 
 nav{
@@ -42,7 +17,74 @@ nav{
     position:fixed;
     top: 0px;
     width: 100%;
+    display: none;
 }
+
+.container, .containerOverlay{
+    display: none;
+    margin: 1.25em auto 0em;
+    padding: 2.5em 0em;
+    color: #fefefe;
+    max-width: 984px;
+}
+
+.visible{
+    display: block;
+}
+
+#overlay.visible{
+    display: block;
+}
+
+
+.container h1{
+    font-family: "Press Start 2P", cursive;
+    font-size: 2.25em;
+    line-height: 1.25em;
+    font-weight: normal;
+}
+.container p, .containerOverlay p{
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.15em;
+    line-height: 1.5em;
+}
+
+.containerOverlay{
+    padding-top: 3.5em;
+    margin: 0 auto;
+    width: 30em;
+}
+.container a{
+    text-decoration-skip: ink;
+    line-height: 1.5em;
+}
+label{
+    display: inline-block;
+  margin-bottom: 0.5rem;
+  font-family: "Press Start 2P", cursive;
+    font-size: 1.5em;
+    line-height: 1.25em;
+    font-weight: normal;
+}
+input{
+    font-family: "Press Start 2P", cursive;
+    font-size: 1.5em;
+    line-height: 1.25em;
+    font-weight: normal;
+    border-image-slice: 2;
+    border-image-width: 2;
+    border-image-repeat: stretch;
+    border-image-outset: 2;
+    border-width: 4px;
+    margin: 4px;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
+  outline-color: #e7e7e7;
+  color: #fff;
+  background-color: #212529;
+}
+
 nav #containerNav{
     max-width: 984px;
     margin: 0 auto;

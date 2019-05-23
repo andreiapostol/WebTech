@@ -19,6 +19,21 @@ const perlinCanvas = document.getElementById('perlin');
 const ctx = perlinCanvas.getContext('2d');
 ctx.fillStyle = 'white';
 
+if(!localStorage.getItem('nickname')){
+    console.log("No nickname in local storage!");
+    document.getElementById("overlay").classList.add("visible");
+}
+else{
+    console.log("Nickname: " + localStorage.getItem('nickname'));
+    document.getElementsByClassName("container")[0].classList.add("visible");
+    document.getElementsByTagName("nav")[0].classList.add("visible");
+}
+document.getElementById("formNickname").addEventListener("submit", submitNickname);
+
+function submitNickname(event){
+    const e = document.getElementById("inputNickname").value;
+    localStorage.setItem("nickname", e);
+}
 
 function drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength, iter){
 	    if(!previousPerlinNoise && !currentPerlinNoise)
