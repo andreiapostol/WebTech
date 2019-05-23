@@ -82,15 +82,24 @@ function getColumnAtHeight(posAx, height, length){
     return allCols;
 }
 
-function getHeightsAndPositionsBasedOnNoise(noiseInterval, startIndex, endIndex, edgeOffset, randomFunction){
+function getHeightsAndPositionsBasedOnNoise(noiseInterval, startIndex, endIndex, edgeOffset, randomFunction, isFlappy){
     let heightPos = [];
     let startTile = startIndex / 16;
     let endTile = endIndex / 16;
-    for(let i = startTile; i < endTile-1; i+=getRandomBetweenValues(4,9, randomFunction)){
+    for(let i = startTile; i < endTile-1; i+=!isFlappy ? getRandomBetweenValues(4,9, randomFunction) : getRandomBetweenValues(12, 20, randomFunction)){
         const currentHeight = 25 - noiseInterval[i*16] / 16;
         heightPos.push({xPosition:i+edgeOffset, height:Math.floor(currentHeight)});
     }
     return heightPos;
+}
+
+function getHoleAtHeight(posAx, height){
+    let allCols = [];
+    allCols.push({tile: "columnForeground0", intervals: [[posAx, posAx+1, 0, 1]]});
+    allCols.push({tile: "columnForeground1", intervals: [[posAx, posAx+1, 1, 2]]});
+    allCols.push({tile: "columnForeground2", intervals: [[posAx, posAx+1, 2, 20 - height], [posAx, posAx+1, 25 - height, 24]]});
+    allCols.push({tile: "columnForeground3", intervals: [[posAx, posAx+1, 24, 25]]});
+    return allCols;
 }
 
 function getColumnTopBackgroundBetweenPositions(posAx, posBx){
@@ -131,33 +140,11 @@ function getPillarsBasedOnPositionsAndHeights(posHeights, randomFunction){
 
 function getFlappyGameBasedOnPositionsAndHeights(posHeights, randomFunction){
     let pillars = [];
-    let lavaUpperIntervals = [];
-    let lavaMediumIntervals = [];
-    let lavaBottomIntervals = [];
 
     for(let i = 0; i < posHeights.length-1; i++){
         let distanceToNext = posHeights[i+1].xPosition - posHeights[i].xPosition;
-        if(distanceToNext < 7){
-            pillars.push(...getColumnAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 1));
-            let lavaHeight = posHeights[i].height < posHeights[i+1].height ? posHeights[i].height : posHeights[i+1].height;
-            lavaUpperIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 26-lavaHeight, 27-lavaHeight]);
-            lavaMediumIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 27-lavaHeight, 28-lavaHeight]);
-            lavaBottomIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 28-lavaHeight, 25]);
-        }else{
-            pillars.push(...getPillarAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), randomFunction, 'triangular'));
-            // pillars.push(...getColumnAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 2));
-            let lavaHeight = posHeights[i].height < posHeights[i+1].height ? posHeights[i].height : posHeights[i+1].height;
-            lavaUpperIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 26-lavaHeight, 27-lavaHeight]);
-            lavaMediumIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 27-lavaHeight, 28-lavaHeight]);
-            lavaBottomIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 28-lavaHeight, 25]);
-        }
+        pillars.push(...getHoleAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height)));
     }
-
-    pillars.push(...getPillarAtHeight(posHeights[posHeights.length-1].xPosition, Math.floor(posHeights[posHeights.length-1].height), randomFunction, 'triangular'));
-    pillars.push({tileA: "lava00", tileB: "lava01", intervals:lavaUpperIntervals});
-    pillars.push({tileA: "lava10", tileB: "lava11", intervals:lavaMediumIntervals});
-    pillars.push({object: "lavaBottom", intervals:lavaBottomIntervals});
-
     return pillars;
 }
 
@@ -172,17 +159,17 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     const currentEdge = oldLevel.tileCollider.tiles.matrix.grid.length;
     let randFunction = _=>noise.ownRandom();
     
-    const posHeights = getHeightsAndPositionsBasedOnNoise(currentNoise, 0, 16* tilesNumber, currentEdge, randFunction);
+    const posHeights = getHeightsAndPositionsBasedOnNoise(currentNoise, 0, 16* tilesNumber, currentEdge, randFunction, true);
     // console.log(noise.ownRandom(), noise.ownRandom(), _=>noise.ownRandom());
-    const pillars = getPillarsBasedOnPositionsAndHeights(posHeights, randFunction);
+    const pillars = getFlappyGameBasedOnPositionsAndHeights(posHeights, randFunction);
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 0, 25);
     let colTopBackground = getColumnTopBackgroundBetweenPositions(currentEdge, currentEdge+tilesNumber);
     let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);
 
-    allNewBackgrounds.push(newBackgrounds, ...newFloorsAndUnderground, ...pillars)
-    backgrounds.push(...allNewBackgrounds, colTopBackground);
+    allNewBackgrounds.push(newBackgrounds, ...pillars)
+    backgrounds.push(colTopBackground, ...allNewBackgrounds);
     
     let objects = oldLevelSpecification.objects;
     const updatedCollisionGrid = createCollisionGrid([...allNewBackgrounds], objects);
