@@ -1,7 +1,8 @@
 import Camera from './Camera.js';
 import Timer from './Timer.js';
 import {loadLevel, loadFont} from './loaders.js';
-import {createMario} from './entities.js';import {setupKeyboard} from './input.js';
+import {createMario} from './entities.js';
+import {setupKeyboard} from './input.js';
 import {setupMouseControl} from './debugging.js';
 import {generateDashboard, displayGameOver, resetScore, displayPowerupJump} from './dashboard.js';
 import { Trait } from './Entity.js';
@@ -59,6 +60,7 @@ Promise.all([
     loadFont()
 ])
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
+
     console.log(level);
     // let perlinGenerator = new Perlin(Math.random());
     
@@ -83,8 +85,9 @@ Promise.all([
     const input = setupKeyboard(mario);
     input.listenTo(window);
 
-    [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 600, perlinGenerator);
-
+    let start = performance.now();
+    [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 800, perlinGenerator);
+    console.log(performance.now() - start);
     timer.update = function update(deltaTime) {
         savedEntities = level.entities;
         if(mario.traits.some(trait => trait.NAME === "jump" && trait.godTime > 0)){

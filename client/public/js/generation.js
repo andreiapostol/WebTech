@@ -76,12 +76,9 @@ function getPillarAtHeight(posAx, height, randomFunction, type){
 function getColumnAtHeight(posAx, height, length){
     let allCols = [];
     allCols.push({tile: "columnForeground0", intervals: [[posAx, posAx+length, 25-height, 26-height]]});
-    // if(height >= 4)
-        allCols.push({tile: "columnForeground1", intervals: [[posAx, posAx+length, 26-height, 27-height]]});
-    // if(height >= 4)
-        allCols.push({tile: "columnForeground2", intervals: [[posAx, posAx+length, 27-height, 24]]});
-    // if(height >= 4)
-        allCols.push({tile: "columnForeground3", intervals: [[posAx, posAx+length, 24, 25]]});
+    allCols.push({tile: "columnForeground1", intervals: [[posAx, posAx+length, 26-height, 27-height]]});
+    allCols.push({tile: "columnForeground2", intervals: [[posAx, posAx+length, 27-height, 24]]});
+    allCols.push({tile: "columnForeground3", intervals: [[posAx, posAx+length, 24, 25]]});
     return allCols;
 }
 
@@ -132,6 +129,38 @@ function getPillarsBasedOnPositionsAndHeights(posHeights, randomFunction){
     return pillars;
 }
 
+function getFlappyGameBasedOnPositionsAndHeights(posHeights, randomFunction){
+    let pillars = [];
+    let lavaUpperIntervals = [];
+    let lavaMediumIntervals = [];
+    let lavaBottomIntervals = [];
+
+    for(let i = 0; i < posHeights.length-1; i++){
+        let distanceToNext = posHeights[i+1].xPosition - posHeights[i].xPosition;
+        if(distanceToNext < 7){
+            pillars.push(...getColumnAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 1));
+            let lavaHeight = posHeights[i].height < posHeights[i+1].height ? posHeights[i].height : posHeights[i+1].height;
+            lavaUpperIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 26-lavaHeight, 27-lavaHeight]);
+            lavaMediumIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 27-lavaHeight, 28-lavaHeight]);
+            lavaBottomIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 28-lavaHeight, 25]);
+        }else{
+            pillars.push(...getPillarAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), randomFunction, 'triangular'));
+            // pillars.push(...getColumnAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 2));
+            let lavaHeight = posHeights[i].height < posHeights[i+1].height ? posHeights[i].height : posHeights[i+1].height;
+            lavaUpperIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 26-lavaHeight, 27-lavaHeight]);
+            lavaMediumIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 27-lavaHeight, 28-lavaHeight]);
+            lavaBottomIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 28-lavaHeight, 25]);
+        }
+    }
+
+    pillars.push(...getPillarAtHeight(posHeights[posHeights.length-1].xPosition, Math.floor(posHeights[posHeights.length-1].height), randomFunction, 'triangular'));
+    pillars.push({tileA: "lava00", tileB: "lava01", intervals:lavaUpperIntervals});
+    pillars.push({tileA: "lava10", tileB: "lava11", intervals:lavaMediumIntervals});
+    pillars.push({object: "lavaBottom", intervals:lavaBottomIntervals});
+
+    return pillars;
+}
+
 
 
 export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites, tilesNumber, noise){
@@ -160,11 +189,18 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     oldLevel.updateCollisionGrid(updatedCollisionGrid);
     level.tileCollider = oldLevel.tileCollider;
     
+    // level.comp.layers = oldLevel.comp.layers;
+    // const backgroundGrid = createBackgroundGrid(allNewBackgrounds, oldLevelSpecification.objects);
+    // const backgroundLayer = createBackgroundLayer(level, backgroundGrid, oldBackgroundSprites);
+    // level.comp.layers.push(backgroundLayer);
+    // console.log(level.comp.layers);
     oldLevelSpecification.layers.forEach(layer => {
         const backgroundGrid = createBackgroundGrid(layer.backgrounds, oldLevelSpecification.objects);
         const backgroundLayer = createBackgroundLayer(level, backgroundGrid, oldBackgroundSprites);
         level.comp.layers.push(backgroundLayer);
     });
+
+    // level.comp.layers = oldLevel.comp.layers;
 
     // backgrounds = allNewBackgrounds;
     const spriteLayer = createSpriteLayer(level.entities);
