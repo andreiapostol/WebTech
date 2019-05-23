@@ -5,6 +5,22 @@
 
     "tiles": [
         {
+            "name": "powerUp00",
+            "index": [10, 0]
+        },
+        {
+            "name": "powerUp01",
+            "index": [11, 0]
+        },
+        {
+            "name": "powerUp10",
+            "index": [10, 1]
+        },
+        {
+            "name": "powerUp11",
+            "index": [11, 1]
+        },
+        {
             "name": "columnForeground0",
             "index": [0, 10]
         },

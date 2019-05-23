@@ -100,13 +100,22 @@ function getRandomBetweenValues(a, b){
 function getPillarAtHeight(posAx, height, type){
     let intervals = [];
     let i;
-    for(i = height-1; i >= 0; i-=2){
-        intervals.push([posAx, posAx+1, 24-i, 24-i+1]);
+    if(Math.floor(Math.random()*101) % 10 != 0){
+        for(i = height-1; i >= 0; i-=2){
+            intervals.push([posAx, posAx+1, 24-i, 24-i+1]);
+        }
+        if(type === 'pattern')
+            return {object: "box1W2H2", intervals: intervals};
+        return [{object: "box2W2H2", intervals: intervals}];
+    }else{
+        for(i = height-3; i >= 0; i-=2){
+            intervals.push([posAx, posAx+1, 24-i, 24-i+1]);
+        }
+        const powerupBox = {object: "powerupBox", intervals: [[posAx, posAx+1, 25-height, 26-height]]};
+        if(type === 'pattern')
+            return [powerupBox, {object: "box1W2H2", intervals: intervals}];
+        return [powerupBox, {object: "box2W2H2", intervals: intervals}];
     }
-    // intervals.push([posAx, posAx+1, i, i+1])
-    if(type === 'pattern')
-        return {object: "box1W2H2", intervals: intervals};
-    return {object: "box2W2H2", intervals: intervals};
 }
 
 function getColumnAtHeight(posAx, height, length){
@@ -151,7 +160,7 @@ function getPillarsBasedOnPositionsAndHeights(posHeights){
             lavaMediumIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 27-lavaHeight, 28-lavaHeight]);
             lavaBottomIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 28-lavaHeight, 25]);
         }else{
-            pillars.push(getPillarAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 'triangular'));
+            pillars.push(...getPillarAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 'triangular'));
             // pillars.push(...getColumnAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 2));
             let lavaHeight = posHeights[i].height < posHeights[i+1].height ? posHeights[i].height : posHeights[i+1].height;
             lavaUpperIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 26-lavaHeight, 27-lavaHeight]);
@@ -160,7 +169,7 @@ function getPillarsBasedOnPositionsAndHeights(posHeights){
         }
     }
 
-    pillars.push(getPillarAtHeight(posHeights[posHeights.length-1].xPosition, Math.floor(posHeights[posHeights.length-1].height), 'triangular'));
+    pillars.push(...getPillarAtHeight(posHeights[posHeights.length-1].xPosition, Math.floor(posHeights[posHeights.length-1].height), 'triangular'));
     pillars.push({tileA: "lava00", tileB: "lava01", intervals:lavaUpperIntervals});
     pillars.push({tileA: "lava10", tileB: "lava11", intervals:lavaMediumIntervals});
     pillars.push({object: "lavaBottom", intervals:lavaBottomIntervals});
@@ -182,8 +191,6 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     const pillars = getPillarsBasedOnPositionsAndHeights(posHeights, tilesNumber);
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
-    console.log(oldLevelSpecification);
-    console.log(oldBackgroundSprites);
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 0, 25);
     let colTopBackground = getColumnTopBackgroundBetweenPositions(currentEdge, currentEdge+tilesNumber);
     let newFloorsAndUnderground = getFloorAndUndergroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 23, 24);
@@ -193,8 +200,6 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     
     let objects = oldLevelSpecification.objects;
     const updatedCollisionGrid = createCollisionGrid([...allNewBackgrounds], objects);
-    console.log(oldLevel.tileCollider.tiles.matrix.grid);
-    console.log(updatedCollisionGrid);
     oldLevel.updateCollisionGrid(updatedCollisionGrid);
     level.tileCollider = oldLevel.tileCollider;
     
@@ -214,8 +219,6 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
     newLevelSpecification.spriteSheet = oldLevelSpecification.spriteSheet;
 
     let newBackgroundSprites = oldBackgroundSprites;
-
-    console.log(level);
 
     return [level, newLevelSpecification, newBackgroundSprites, currentNoise];
 

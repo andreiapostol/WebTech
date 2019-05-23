@@ -1337,6 +1337,30 @@
                     ]
                 }
             ]
+        },
+        "powerupBox":{
+            "backgrounds": [
+                {
+                    "tileA": "powerUp00",
+                    "tileB": "powerUp01",
+                    "intervals": [
+                        [
+                            0, 2,
+                            0, 1
+                        ]
+                    ]
+                },
+                {
+                    "tileA": "powerUp10",
+                    "tileB": "powerUp11",
+                    "intervals": [
+                        [
+                            0, 2,
+                            1, 2
+                        ]
+                    ]
+                }        
+            ]
         }
     }
 }

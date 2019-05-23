@@ -31,7 +31,6 @@ export default class Entity {
         this.traits.forEach(trait => {
             trait.obstruct(this, side);
         });
-        // console.log(side);
     }
 
     update(deltaTime) {

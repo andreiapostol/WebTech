@@ -30,11 +30,9 @@ export default class TileCollider {
             }
 
             if (match.tile.name.includes('lava')) {
-                // entity.traits.push(new Trait('dead'));
+                entity.traits.push(new Trait('dead'));
                 return;
             }
-
-            
 
             if (entity.vel.x > 0) {
                 if (entity.pos.x + entity.size.x > match.x1) {
@@ -46,6 +44,15 @@ export default class TileCollider {
                     entity.pos.x = match.x2;
                     entity.vel.x = 0;
                 }
+            }
+
+            if (match.tile.name.includes('powerUp')) {
+                entity.traits.forEach(trait=>{
+                    if(trait.NAME === 'jump'){
+                        trait.godTime = 5;
+                    };
+                });
+                return;
             }
         });
     }
@@ -70,21 +77,7 @@ export default class TileCollider {
             }
 
             if (match.tile.name.includes('lava')) {
-                // entity.traits.push(new Trait('dead'));
-                entity.traits.forEach(trait=>{
-                    if(trait.NAME === 'jump'){
-                        trait.godJumps = 10;
-                    };
-                });
-                return;
-            }
-
-            if (match.tile.name.includes('jumpPowerup')) {
-                entity.traits.forEach(trait=>{
-                    if(trait.NAME === 'jump'){
-                        trait.godJumps = 10;
-                    };
-                });
+                entity.traits.push(new Trait('dead'));
                 return;
             }
 
@@ -99,6 +92,15 @@ export default class TileCollider {
                     entity.pos.y = match.y2;
                     entity.vel.y = 0;
                 }
+            }
+
+            if (match.tile.name.includes('powerUp')) {
+                entity.traits.forEach(trait=>{
+                    if(trait.NAME === 'jump'){
+                        trait.godTime = 5;
+                    };
+                });
+                return;
             }
         });
     }
