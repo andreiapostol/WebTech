@@ -136,14 +136,14 @@ function getPillarsBasedOnPositionsAndHeights(posHeights, randomFunction){
 
 export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprites, tilesNumber, noise){
     const level = new Level();
-    const currentNoise = noise.getNextPerlinCurve(1600);
+    const currentNoise = noise.getNextPerlinCurve(16 * tilesNumber);
     const allNewBackgrounds = [];
 
     level.entities = oldLevel.entities;
     const currentEdge = oldLevel.tileCollider.tiles.matrix.grid.length;
     let randFunction = _=>noise.ownRandom();
     
-    const posHeights = getHeightsAndPositionsBasedOnNoise(currentNoise, 0, 1600, currentEdge, randFunction);
+    const posHeights = getHeightsAndPositionsBasedOnNoise(currentNoise, 0, 16* tilesNumber, currentEdge, randFunction);
     // console.log(noise.ownRandom(), noise.ownRandom(), _=>noise.ownRandom());
     const pillars = getPillarsBasedOnPositionsAndHeights(posHeights, randFunction);
 

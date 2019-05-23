@@ -61,7 +61,8 @@ Promise.all([
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
     console.log(level);
     // let perlinGenerator = new Perlin(Math.random());
-    let perlinGenerator = new Perlin(0.127);
+    
+    let perlinGenerator = new Perlin(0.128);
     let currentPerlinNoise = undefined;
     let previousPerlinNoise = undefined;
     const generateLength = 100;
@@ -81,6 +82,9 @@ Promise.all([
     mario.gameOver = false;
     const input = setupKeyboard(mario);
     input.listenTo(window);
+
+    [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 600, perlinGenerator);
+
     timer.update = function update(deltaTime) {
         savedEntities = level.entities;
         if(mario.traits.some(trait => trait.NAME === "jump" && trait.godTime > 0)){
