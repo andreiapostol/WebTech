@@ -15,6 +15,7 @@ export function generateDashboard(font, score){
         if(score > maxScore){
             maxScore = score;
         }
+        writeText(font, localStorage.getItem('nickname').toUpperCase(), context, 20, 16);
         writeText(font, "SCORE:" + maxScore.toString().padStart(5, '0'), context, 550, 16);
     }
 }
