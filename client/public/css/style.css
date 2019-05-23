@@ -1,26 +1,27 @@
-body{
+body {
     background-color: #111;
     padding: 0px;
     margin: 0px;
 }
 
-#overlay{
-    width:100%;
-    height:100vh;
-    background-color:#111;
+#overlay {
+    width: 100%;
+    height: 100vh;
+    background-color: #111;
     display: none;
 }
 
-nav{
+nav {
     padding: 2em 0;
     background-color: #111;
-    position:fixed;
+    position: fixed;
     top: 0px;
     width: 100%;
     display: none;
 }
 
-.container, .containerOverlay{
+.container,
+.containerOverlay {
     display: none;
     margin: 1.25em auto 0em;
     padding: 2.5em 0em;
@@ -28,45 +29,49 @@ nav{
     max-width: 984px;
 }
 
-.visible{
+.visible {
     display: block;
 }
 
-#overlay.visible{
+#overlay.visible {
     display: block;
 }
 
-
-.container h1{
+.container h1 {
     font-family: "Press Start 2P", cursive;
     font-size: 2.25em;
     line-height: 1.25em;
     font-weight: normal;
 }
-.container p, .containerOverlay p{
+
+.container p,
+.containerOverlay p {
     font-family: "Open Sans", sans-serif;
     font-size: 1.15em;
     line-height: 1.5em;
 }
 
-.containerOverlay{
+.containerOverlay {
     padding-top: 3.5em;
     margin: 0 auto;
     width: 30em;
 }
-.container a{
+
+.container a {
     text-decoration-skip: ink;
     line-height: 1.5em;
 }
-label{
+
+label {
     display: inline-block;
-  margin-bottom: 0.5rem;
-  font-family: "Press Start 2P", cursive;
+    margin-bottom: 0.5rem;
+    font-family: "Press Start 2P", cursive;
     font-size: 1.5em;
     line-height: 1.25em;
     font-weight: normal;
 }
-input{
+
+input {
     font-family: "Press Start 2P", cursive;
     font-size: 1.5em;
     line-height: 1.25em;
@@ -80,52 +85,172 @@ input{
     width: 100%;
     padding: 0.5rem 1rem;
     border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
-  outline-color: #e7e7e7;
-  color: #fff;
-  background-color: #212529;
+    outline-color: #e7e7e7;
+    color: #fff;
+    background-color: #212529;
 }
 
-nav #containerNav{
+nav #containerNav {
     max-width: 984px;
     margin: 0 auto;
     disply: block;
 }
-nav b{
+
+nav b {
     padding: 0 0.5em;
 }
-nav, nav a{
+
+nav,
+nav a {
     font-family: "Press Start 2P", cursive;
     font-size: 1em;
     color: #fefefe;
     text-transform: uppercase;
 }
-nav a{
-    text-decoration: none; 
-    border-bottom: 3px solid #fefefe; 
+
+nav a {
+    text-decoration: none;
+    border-bottom: 3px solid #fefefe;
     transition: 0.25s ease-in-out border-bottom-color;
 }
-nav a:hover{
-    border-bottom: 3px solid #f24a02; 
+
+nav a:hover {
+    border-bottom: 3px solid #f24a02;
 }
-nav a.active{
-    text-decoration: none; 
-    border-bottom: 3px solid #f24a02; 
+
+nav a.active {
+    text-decoration: none;
+    border-bottom: 3px solid #f24a02;
     color: #f24a02;
 }
 
+table {
+    border-style: solid;
+    border-width: 4px;
+    border-collapse: collapse;
+    margin-top: 5em;
+    font-family: "Press Start 2P", cursive;
+    font-size: 1em;
+    color: #fefefe;
+    text-transform: uppercase;
+}
+
+.table tr {
+    margin-left: -0.25em;
+}
+
+.table th,
+.table td {
+    position: relative;
+    padding: 0.5rem;
+    word-wrap: break-word;
+    border-color: #212529;
+    border-style: solid;
+    border-width: 0 0.25em 0.25em 0;
+}
+
+th {
+    text-align: inherit;
+}
+
+.table {
+    table-layout: fixed;
+    background-color: #fff;
+}
+
+.table tr {
+    margin-left: -0.25em;
+}
+
+.table th,
+.table td {
+    position: relative;
+    padding: 0.5rem;
+    word-wrap: break-word;
+    border-color: #212529;
+    border-style: solid;
+    border-width: 0 0.25em 0.25em 0;
+}
+
+.table th:last-child,
+.table td:last-child {
+    border-right-width: 0;
+}
+
+.table.is-centered th {
+    text-align: center;
+}
+
+.table.is-bordered {
+    margin: 4px;
+    border-spacing: 0;
+    border-collapse: separate;
+    border-image-slice: 2;
+    border-image-width: 2;
+    border-image-repeat: stretch;
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(33,37,41)" /></svg>');
+    border-image-outset: 2;
+}
+
+@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+    .table.is-bordered {
+        border-image-repeat: space;
+    }
+}
+
+@supports (-moz-appearance: meterbar) {
+    .table.is-bordered {
+        border-image-repeat: stretch;
+    }
+}
+
+.table.is-dark {
+    color: #fff;
+    background-color: #111;
+}
+
+.table.is-dark.is-bordered {
+    border-image-slice: 2;
+    border-image-width: 2;
+    border-image-repeat: stretch;
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="5" height="5" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 h1 v1 h-1 z M1 2 h1 v1 h-1 z M3 2 h1 v1 h-1 z M2 3 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
+    border-image-outset: 0;
+}
+
+@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+    .table.is-dark.is-bordered {
+        border-image-repeat: space;
+    }
+}
+
+@supports (-moz-appearance: meterbar) {
+    .table.is-dark.is-bordered {
+        border-image-repeat: stretch;
+    }
+}
+
+.table.is-dark th,
+.table.is-dark td {
+    border-color: #fff;
+}
+
+
 /* Styling for the game */
-#containerGame #screen{
+
+#containerGame #screen {
     z-index: 1;
     margin: 0 auto;
     padding: 0;
     margin-bottom: -4px;
 }
-#containerGame #perlin{
+
+#containerGame #perlin {
     margin-top: 0px;
     position: absolute;
     z-index: 9999;
 }
-#containerGame{
+
+#containerGame {
     display: block;
     margin: 0 auto;
     width: 984px;
