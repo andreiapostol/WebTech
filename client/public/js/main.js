@@ -9,6 +9,7 @@ import Go from './traits/Go.js';
 import Jump from './traits/Jump.js';
 import Perlin from './perlin.js';
 import {updateLevel} from './generation.js';
+
 // import {createNextTileMatrices} from '.'
 
 const canvas = document.getElementById('screen');
@@ -59,10 +60,20 @@ Promise.all([
     loadFont()
 ])
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
-    console.log(level);
-    // let perlinGenerator = new Perlin(Math.random());
-    
-    let perlinGenerator = new Perlin(0.128);
+    const seed = Math.random();
+    let perlinGenerator = new Perlin(seed);
+
+    let recentMaps = JSON.parse(localStorage.getItem("recentMaps"));
+    if(recentMaps === null){
+        let temp = [];
+        temp[0] = seed;
+        localStorage.setItem("recentMaps", JSON.stringify(temp));
+    }
+    else{
+        recentMaps = recentMaps.slice(Math.max(recentMaps.length - 10, 1));
+        recentMaps.push(seed);
+        localStorage.setItem("recentMaps", JSON.stringify(recentMaps));
+    }
     let currentPerlinNoise = undefined;
     let previousPerlinNoise = undefined;
     const generateLength = 100;
