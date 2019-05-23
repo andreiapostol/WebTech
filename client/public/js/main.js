@@ -3,7 +3,7 @@ import Timer from './Timer.js';
 import {loadLevel, updateLevel, loadFont} from './loaders.js';
 import {createMario} from './entities.js';import {setupKeyboard} from './input.js';
 import {setupMouseControl} from './debugging.js';
-import {generateDashboard, displayGameOver, resetScore} from './dashboard.js';
+import {generateDashboard, displayGameOver, resetScore, displayPowerupJump} from './dashboard.js';
 import { Trait } from './Entity.js';
 import Go from './traits/Go.js';
 import Jump from './traits/Jump.js';
@@ -66,6 +66,12 @@ Promise.all([
     input.listenTo(window);
     timer.update = function update(deltaTime) {
         savedEntities = level.entities;
+        if(mario.traits.some(trait => trait.NAME === "jump" && trait.godTime > 0)){
+            level.comp.layers[5] = displayPowerupJump(font);
+        }
+        else{
+            level.comp.layers[5] = function(){};
+        }
         if(mario.gameOver){
             level.comp.layers[4] = displayGameOver(font);
             level.comp.draw(context, camera);

@@ -19,6 +19,12 @@ export function generateDashboard(font, score){
     }
 }
 
+export function displayPowerupJump(font){
+    return function drawDashboard(context){
+        writeText(font, "INFINITE JUMPS!", context, 265, 60);
+    }
+}
+
 
 export function displayGameOver(font){
     return function drawGameOver(context){
