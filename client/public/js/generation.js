@@ -48,14 +48,14 @@ function getTreeAtPosition(posAx, posAy){
     return {object: "tree", intervals: [[posAx, posAx + 1, posAy, posAy + 1]]};
 }
 
-function getRandomBetweenValues(a, b){
-    return Math.floor(Math.random()*(b-a+1)+a);
+function getRandomBetweenValues(a, b, randomFunction){
+    return Math.floor(randomFunction()*(b-a+1)+a);
 }
 
-function getPillarAtHeight(posAx, height, type){
+function getPillarAtHeight(posAx, height, randomFunction, type){
     let intervals = [];
     let i;
-    if(Math.floor(Math.random()*101) % 10 != 0){
+    if(Math.floor(randomFunction()*101) % 10 != 0){
         for(i = height-1; i >= 0; i-=2){
             intervals.push([posAx, posAx+1, 24-i, 24-i+1]);
         }
@@ -85,11 +85,11 @@ function getColumnAtHeight(posAx, height, length){
     return allCols;
 }
 
-function getHeightsAndPositionsBasedOnNoise(noiseInterval, startIndex, endIndex, edgeOffset){
+function getHeightsAndPositionsBasedOnNoise(noiseInterval, startIndex, endIndex, edgeOffset, randomFunction){
     let heightPos = [];
     let startTile = startIndex / 16;
     let endTile = endIndex / 16;
-    for(let i = startTile; i < endTile-1; i+=getRandomBetweenValues(4,9)){
+    for(let i = startTile; i < endTile-1; i+=getRandomBetweenValues(4,9, randomFunction)){
         const currentHeight = 25 - noiseInterval[i*16] / 16;
         heightPos.push({xPosition:i+edgeOffset, height:Math.floor(currentHeight)});
     }
@@ -100,7 +100,7 @@ function getColumnTopBackgroundBetweenPositions(posAx, posBx){
     return {object: "columnTop", intervals:[[posAx, posBx, 3, 4]]};
 }
 
-function getPillarsBasedOnPositionsAndHeights(posHeights){
+function getPillarsBasedOnPositionsAndHeights(posHeights, randomFunction){
     let pillars = [];
     let lavaUpperIntervals = [];
     let lavaMediumIntervals = [];
@@ -115,7 +115,7 @@ function getPillarsBasedOnPositionsAndHeights(posHeights){
             lavaMediumIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 27-lavaHeight, 28-lavaHeight]);
             lavaBottomIntervals.push([posHeights[i].xPosition+1, posHeights[i+1].xPosition, 28-lavaHeight, 25]);
         }else{
-            pillars.push(...getPillarAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 'triangular'));
+            pillars.push(...getPillarAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), randomFunction,'triangular'));
             // pillars.push(...getColumnAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height), 2));
             let lavaHeight = posHeights[i].height < posHeights[i+1].height ? posHeights[i].height : posHeights[i+1].height;
             lavaUpperIntervals.push([posHeights[i].xPosition+2, posHeights[i+1].xPosition, 26-lavaHeight, 27-lavaHeight]);
@@ -124,7 +124,7 @@ function getPillarsBasedOnPositionsAndHeights(posHeights){
         }
     }
 
-    pillars.push(...getPillarAtHeight(posHeights[posHeights.length-1].xPosition, Math.floor(posHeights[posHeights.length-1].height), 'triangular'));
+    pillars.push(...getPillarAtHeight(posHeights[posHeights.length-1].xPosition, Math.floor(posHeights[posHeights.length-1].height), randomFunction, 'triangular'));
     pillars.push({tileA: "lava00", tileB: "lava01", intervals:lavaUpperIntervals});
     pillars.push({tileA: "lava10", tileB: "lava11", intervals:lavaMediumIntervals});
     pillars.push({object: "lavaBottom", intervals:lavaBottomIntervals});
@@ -141,9 +141,11 @@ export function updateLevel(oldLevel, oldLevelSpecification, oldBackgroundSprite
 
     level.entities = oldLevel.entities;
     const currentEdge = oldLevel.tileCollider.tiles.matrix.grid.length;
+    let randFunction = _=>noise.ownRandom();
     
-    const posHeights = getHeightsAndPositionsBasedOnNoise(currentNoise, 0, 1600, currentEdge);
-    const pillars = getPillarsBasedOnPositionsAndHeights(posHeights, tilesNumber);
+    const posHeights = getHeightsAndPositionsBasedOnNoise(currentNoise, 0, 1600, currentEdge, randFunction);
+    // console.log(noise.ownRandom(), noise.ownRandom(), _=>noise.ownRandom());
+    const pillars = getPillarsBasedOnPositionsAndHeights(posHeights, randFunction);
 
     let backgrounds = oldLevelSpecification.layers[0].backgrounds;
     let newBackgrounds = getBackgroundBetweenPositions(currentEdge, currentEdge + tilesNumber, 0, 25);

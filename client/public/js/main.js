@@ -45,7 +45,8 @@ Promise.all([
 ])
 .then(([mario, [level,levelSpecification,backgroundSprites], font]) => {
     console.log(level);
-    let perlinGenerator = new Perlin(Math.random());
+    // let perlinGenerator = new Perlin(Math.random());
+    let perlinGenerator = new Perlin(0.127);
     let currentPerlinNoise = undefined;
     let previousPerlinNoise = undefined;
     const generateLength = 100;
