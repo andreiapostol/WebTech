@@ -1,6 +1,6 @@
 import Camera from './Camera.js';
 import Timer from './Timer.js';
-import {loadLevel, updateLevel, loadFont} from './loaders.js';
+import {loadLevel, loadFont} from './loaders.js';
 import {createMario} from './entities.js';import {setupKeyboard} from './input.js';
 import {setupMouseControl} from './debugging.js';
 import {generateDashboard, displayGameOver, resetScore, displayPowerupJump} from './dashboard.js';
@@ -8,6 +8,7 @@ import { Trait } from './Entity.js';
 import Go from './traits/Go.js';
 import Jump from './traits/Jump.js';
 import Perlin from './perlin.js';
+import {updateLevel} from './generation.js';
 // import {createNextTileMatrices} from '.'
 
 const canvas = document.getElementById('screen');
