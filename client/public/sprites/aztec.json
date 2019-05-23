@@ -9,16 +9,48 @@
             "index": [10, 0]
         },
         {
+            "name": "powerUp001",
+            "index": [12, 0]
+        },
+        {
+            "name": "powerUp002",
+            "index": [14, 0]
+        },
+        {
             "name": "powerUp01",
             "index": [11, 0]
+        },
+        {
+            "name": "powerUp011",
+            "index": [13, 0]
+        },
+        {
+            "name": "powerUp012",
+            "index": [15, 0]
         },
         {
             "name": "powerUp10",
             "index": [10, 1]
         },
         {
+            "name": "powerUp101",
+            "index": [12, 1]
+        },
+        {
+            "name": "powerUp102",
+            "index": [14, 1]
+        },
+        {
             "name": "powerUp11",
             "index": [11, 1]
+        },
+        {
+            "name": "powerUp111",
+            "index": [13, 1]
+        },
+        {
+            "name": "powerUp112",
+            "index": [15, 1]
         },
         {
             "name": "columnForeground0",
@@ -397,6 +429,26 @@
         }
     ],
     "animations": [
+        {
+            "name": "powerUp00",
+            "rate": 0.25,
+            "frames": ["powerUp00", "powerUp002", "powerUp00"]
+        },
+        {
+            "name": "powerUp01",
+            "rate": 0.25,
+            "frames": ["powerUp01", "powerUp012", "powerUp01"]
+        },
+        {
+            "name": "powerUp10",
+            "rate": 0.25,
+            "frames": ["powerUp10", "powerUp102", "powerUp10"]
+        },
+        {
+            "name": "powerUp11",
+            "rate": 0.25,
+            "frames": ["powerUp11", "powerUp112", "powerUp11"]
+        },
         {
             "name": "powerup-1",
             "rate": 0.25,
