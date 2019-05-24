@@ -65,7 +65,7 @@ app.post('/submitScore', (req, res) => {
     const name = req.body.name;
     const score = req.body.score;
     try {
-        newdb.run(`INSERT INTO RANKINGS VALUES (NULL, ?, ?)`, [name, score]);
+        newdb.run(`INSERT INTO RANKINGS(USERNAME, SCORE) VALUES (?, ?)`, [name, score]);
     } catch (err) {
         console.log(err);
     }
