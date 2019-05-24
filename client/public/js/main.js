@@ -56,8 +56,10 @@ function drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength
 
 function parsePathArguments(pathname){
     let object = {};
+    // let firstAppearance = pathname.indexOf('?');
     pathname = pathname.substr(1, pathname.length-1);
-    let splitUp = pathname.split('?');
+    // pathname = pathname.substr(1, pathname.length-1);
+    let splitUp = pathname.split('&');
     for(let i = 0; i < splitUp.length; i++){
         let keyValue = splitUp[i].split('=');
         if(keyValue && keyValue.length >= 2){
@@ -67,17 +69,21 @@ function parsePathArguments(pathname){
     return object;
 };
 
+
 Promise.all([
         createMario(),
         loadLevel('intro'),
         loadFont()
     ])
     .then(([mario, [level, levelSpecification, backgroundSprites], font]) => {
-        console.log(window.location.pathname);
-        let test = '/abc=def?aaa=245?nm=89';
-        console.log(parsePathArguments(test));
-        // const seed = Math.random();
-        const seed = Math.random();
+        const parsedArgs = parsePathArguments(window.location.search);
+        let seed;
+        if(parsedArgs.seed){
+            seed = Math.floor(parseFloat(parsedArgs.seed) * 1000) * 0.001;
+        }else{
+            seed = Math.floor(Math.random() * 1000) * 0.001;
+        }
+        console.log(seed);
         let perlinGenerator = new Perlin(seed);
 
         let recentMaps = JSON.parse(localStorage.getItem("recentMaps"));
@@ -94,7 +100,7 @@ Promise.all([
             localStorage.setItem("recentMaps", JSON.stringify(temp));
         } else {
             recentMaps.push({ seed: seed, time: now });
-            console.log(recentMaps);
+            // console.log(recentMaps);
             recentMaps = recentMaps.slice(-10);
             localStorage.setItem("recentMaps", JSON.stringify(recentMaps));
         }

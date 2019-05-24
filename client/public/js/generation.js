@@ -153,7 +153,7 @@ function getFlappyGameBasedOnPositionsAndHeights(posHeights, randomFunction){
         pillars.push(...getHoleAtHeight(posHeights[i].xPosition, Math.floor(posHeights[i].height) + 2));
         if(i % 2 === 0){
             const powerXPosition = Math.floor(posHeights[i].xPosition + (posHeights[i+1].xPosition - posHeights[i].xPosition) / 2);
-            const randPos = Math.floor(Math.random() * 25);
+            const randPos = Math.floor(randomFunction() * 25);
             powerBoxesIntervals.push([powerXPosition, powerXPosition + 1, randPos, randPos + 1]);
         }
     }
