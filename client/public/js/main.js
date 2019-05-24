@@ -54,12 +54,28 @@ function drawMap(camera, previousPerlinNoise, currentPerlinNoise, generateLength
     }
 };
 
+function parsePathArguments(pathname){
+    let object = {};
+    pathname = pathname.substr(1, pathname.length-1);
+    let splitUp = pathname.split('?');
+    for(let i = 0; i < splitUp.length; i++){
+        let keyValue = splitUp[i].split('=');
+        if(keyValue && keyValue.length >= 2){
+            object[keyValue[0]] = keyValue[1];
+        }
+    }
+    return object;
+};
+
 Promise.all([
         createMario(),
         loadLevel('intro'),
         loadFont()
     ])
     .then(([mario, [level, levelSpecification, backgroundSprites], font]) => {
+        console.log(window.location.pathname);
+        let test = '/abc=def?aaa=245?nm=89';
+        console.log(parsePathArguments(test));
         // const seed = Math.random();
         const seed = Math.random();
         let perlinGenerator = new Perlin(seed);
@@ -108,7 +124,6 @@ Promise.all([
         [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
         [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
         [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
-
         timer.update = function update(deltaTime) {
             savedEntities = level.entities;
             if (mario.traits.some(trait => trait.NAME === "jump" && trait.godTime > 0)) {
