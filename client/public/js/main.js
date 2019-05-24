@@ -81,7 +81,7 @@ Promise.all([
         if(parsedArgs.seed){
             seed = Math.floor(parseFloat(parsedArgs.seed) * 1000) * 0.001;
         }else{
-            seed = Math.floor(Math.random() * 1000) / 1000g;
+            seed = Math.floor(Math.random() * 1000) / 1000;
         }
         console.log(seed);
         let perlinGenerator = new Perlin(seed);
