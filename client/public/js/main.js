@@ -69,6 +69,10 @@ function parsePathArguments(pathname){
     return object;
 };
 
+function truncateTo3(num) {
+    return num.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0];
+
+}
 
 Promise.all([
         createMario(),
@@ -79,9 +83,9 @@ Promise.all([
         const parsedArgs = parsePathArguments(window.location.search);
         let seed;
         if(parsedArgs.seed){
-            seed = Math.floor(parseFloat(parsedArgs.seed) * 1000) * 0.001;
+            seed = truncateTo3(parseFloat(parsedArgs.seed));
         }else{
-            seed = Math.floor(Math.random() * 1000) / 1000;
+            seed = truncateTo3(Math.random());
         }
         console.log(seed);
         let perlinGenerator = new Perlin(seed);
