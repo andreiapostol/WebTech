@@ -44,10 +44,10 @@ app.get('/ranksRange', (req, res) => {
     try {
         newdb.serialize(function() {
             let statement = newdb.prepare(`WITH temp AS (
-        SELECT id, name, score, row_number() OVER (ORDER BY SCORE DESC) AS rownum
+        SELECT id, username, score, row_number() OVER (ORDER BY SCORE DESC) AS rownum
         FROM rankings
     )
-    SELECT ID, NAME, SCORE FROM temp WHERE rownum >= ` + req.query.beginAt + ` AND rownum <= ` + req.query.endAt + `;`);
+    SELECT ID, USERNAME, SCORE FROM temp WHERE rownum >= ` + req.query.beginAt + ` AND rownum <= ` + req.query.endAt + `;`);
 
             // TODO: PREPARED STATEMENTS
 
