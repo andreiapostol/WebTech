@@ -176,6 +176,10 @@ th {
     border-width: 0 0.25em 0.25em 0;
 }
 
+.table td {
+    font-size: 0.75em;
+}
+
 .table th:last-child,
 .table td:last-child {
     border-right-width: 0;
@@ -240,16 +244,16 @@ th {
 
 .star-rating__stars {
     position: relative;
-    height: 5rem;
-    width: 25rem;
+    height: 1rem;
+    width: 5rem;
     background: url(../img/off.svg);
-    background-size: 5rem 5rem;
+    background-size: 1rem 1rem;
 }
 
 .star-rating__label {
     position: absolute;
     height: 100%;
-    background-size: 5rem 5rem;
+    background-size: 1rem 1rem;
 }
 
 .star-rating__input {
@@ -296,13 +300,8 @@ th {
     background-image: url(../img/off.svg);
 }
 
-.star-rating__input:focus~.star-rating__focus {
-    position: absolute;
-    top: -.25em;
-    right: -.25em;
-    bottom: -.25em;
-    left: -.25em;
-    outline: 0.25rem solid lightblue;
+fieldset {
+    border: none;
 }
 
 
