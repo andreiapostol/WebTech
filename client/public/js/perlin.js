@@ -7,7 +7,7 @@ export default class Perlin {
         this.Z = Math.floor(this.seed * this.M);
         this.h = 400;
         this.amp = 250;
-        this.wl = 800;
+        this.wl = 200;
         this.fq = 1 / this.wl;
         this.createNewInit(this.h - 3 * 16);
     }
@@ -27,13 +27,24 @@ export default class Perlin {
         return this.Z / this.M;
     }
 
+    ownRandomWithoutModifyingZ(iterations){
+        let newZ = (this.A * this.Z * this.C) % this.M;
+        if(iterations){
+            for(let i = 0; i < iterations-1; i++)
+                newZ = (this.A * newZ * this.C) % this.M;
+        }
+        return newZ / this.M;
+    }
+
     interpolate(pa, pb, px){
         let ft = px * Math.PI,
             f = (1 - Math.cos(ft)) * 0.5;
         return pa * (1 - f) + pb * f;
     }
 
-    getNextPerlinCurve(len, offset){
+    getNextPerlinCurve(len, wavelength){
+        if(wavelength)
+            this.wl = wavelength;
         let x = 0,
         y = this.h / 2,
         a = this.ownRandom(),

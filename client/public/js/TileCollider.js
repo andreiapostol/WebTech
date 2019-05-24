@@ -29,7 +29,7 @@ export default class TileCollider {
                 return;
             }
 
-            if (match.tile.name.includes('lava')) {
+            if (match.tile.name.includes('lava') || match.tile.name.includes('fireColumn')) {
                 entity.traits.push(new Trait('dead'));
                 return;
             }
@@ -49,7 +49,7 @@ export default class TileCollider {
             if (match.tile.name.includes('powerUp')) {
                 entity.traits.forEach(trait=>{
                     if(trait.NAME === 'jump'){
-                        trait.godTime = 5;
+                        trait.godTime = 4;
                     };
                 });
                 return;
@@ -97,7 +97,7 @@ export default class TileCollider {
             if (match.tile.name.includes('powerUp')) {
                 entity.traits.forEach(trait=>{
                     if(trait.NAME === 'jump'){
-                        trait.godTime = 5;
+                        trait.godTime = 4;
                     };
                 });
                 return;

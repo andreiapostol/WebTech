@@ -67,6 +67,21 @@
         {
             "name": "columnForeground3",
             "index": [0, 13]
+        },{
+            "name": "fireColumnForeground0",
+            "index": [5, 10]
+        },
+        {
+            "name": "fireColumnForeground1",
+            "index": [5, 11]
+        },
+        {
+            "name": "fireColumnForeground2",
+            "index": [5, 12]
+        },
+        {
+            "name": "fireColumnForeground3",
+            "index": [5, 13]
         },
         {
             "name": "torchA-1",

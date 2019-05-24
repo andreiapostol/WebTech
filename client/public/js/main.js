@@ -60,6 +60,7 @@ Promise.all([
         loadFont()
     ])
     .then(([mario, [level, levelSpecification, backgroundSprites], font]) => {
+        // const seed = Math.random();
         const seed = Math.random();
         let perlinGenerator = new Perlin(seed);
 
@@ -101,7 +102,12 @@ Promise.all([
         const input = setupKeyboard(mario);
         input.listenTo(window);
 
-        [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 600, perlinGenerator);
+        [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
+        [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
+        [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
+        [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
+        [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
+        [level, levelSpecification, backgroundSprites, currentPerlinNoise] = updateLevel(level, levelSpecification, backgroundSprites, 100, perlinGenerator);
 
         timer.update = function update(deltaTime) {
             savedEntities = level.entities;
@@ -133,10 +139,11 @@ Promise.all([
                 }
 
                 // Game Over
-                if (camera.pos.x > mario.pos.x + 20 || mario.traits.some(e => e.NAME === 'dead')) {
+                if (camera.pos.x > mario.pos.x + 20 || mario.pos.y > 26 * 16 || mario.traits.some(e => e.NAME === 'dead')) {
                     cameraAcceleration = 0;
                     mario.gameOver = true;
                 }
+
                 // Camera threshold right
                 else if (mario.pos.x > camera.pos.x + 350) {
                     cameraAcceleration = 3.5;
