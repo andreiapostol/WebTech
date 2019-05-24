@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
+const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -12,6 +13,8 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 app.use(cors());
+
+app.use(bodyParser.json());
 // const memorydb = new sqlite3.Database(':memory:');
 const newdb = new sqlite3.Database('./db/data.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -31,46 +34,40 @@ newdb.serialize(function() {
     // }
     // stmt.finalize();
 
-    newdb.each("SELECT * FROM RANKINGS", function(err, row) {
+    newdb.each("SELECT * FROM rankings", function(err, row) {
         console.log(row);
     });
 });
 
 
-app.get('/rankings/id/:id', async(req, res, next) => {
-    try {
-        newdb.serialize(function() {
-            let statement = newdb.prepare("SELECT * FROM RANKINGS WHERE ID = (?)");
-            statement.all(req.params.id, function(err, rows) {
-                res.json(rows);
-                return res;
-            })
-        });
-    } catch (err) {
-        console.log('ERROR IN ID RANKING RETRIEVAL');
-        next(err);
-    }
-});
-
-app.get('/rankings/score_range/:beginAt/:endAt', async(req, res, next) => {
+app.get('/ranksRange', (req, res) => {
     try {
         newdb.serialize(function() {
             let statement = newdb.prepare(`WITH temp AS (
         SELECT id, name, score, row_number() OVER (ORDER BY SCORE DESC) AS rownum
-        FROM RANKINGS
+        FROM rankings
     )
-    SELECT ID, NAME, SCORE FROM temp WHERE rownum >= ` + req.params.beginAt + ` AND rownum <= ` + req.params.endAt + `;`);
+    SELECT ID, NAME, SCORE FROM temp WHERE rownum >= ` + req.query.beginAt + ` AND rownum <= ` + req.query.endAt + `;`);
 
             // TODO: PREPARED STATEMENTS
 
             statement.all(function(err, rows) {
-                console.log(JSON.stringify(statement));
                 res.json(rows);
             });
         });
     } catch (err) {
         console.log('ERROR IN BEGIN - END IDS RETRIEVAL');
-        next(err);
+    }
+});
+
+app.post('/submitScore', (req, res) => {
+    console.log(req.body);
+    const name = req.body.name;
+    const score = req.body.score;
+    try {
+        newdb.run(`INSERT INTO RANKINGS VALUES (NULL, ?, ?)`, [name, score]);
+    } catch (err) {
+        console.log(err);
     }
 });
 
